@@ -5,7 +5,8 @@
 # 1.1 - add list of files to download
 #
 
-sudo dnf install -y wget 
+sudo dnf install -y wget
+rm -rf $HOME/bin 
 mkdir $HOME/bin 
 cd $HOME/bin  
 
