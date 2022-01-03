@@ -4,6 +4,11 @@
 # Version 
 # 1.1 - add list of files to download
 #
+# this file 
+# wget https://raw.githubusercontent.com/mantonik/oci-always-free-high-availability/main/server-config/oci-server-initial-cloud-script.sh
+#
+#
+
 
 sudo dnf install -y wget
 rm -rf $HOME/bin 
