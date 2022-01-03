@@ -5,10 +5,9 @@
 # 1.1 - add list of files to download
 #
 
-mkdir bin 
-cd bin 
 sudo dnf install -y wget 
-cd bin 
+mkdir $HOME/bin 
+cd $HOME/bin  
 
 #download instalation files 
 wget https://raw.githubusercontent.com/mantonik/oci-always-free-high-availability/main/server-config/bin/02.server-instalation-script-app.sh

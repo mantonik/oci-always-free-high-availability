@@ -4,6 +4,7 @@
 # Version 
 # 12/27/2021 
 # 1/3/2022 - change start of squid after instaltion from restart -> start
+#  add note for server app1
  
 ##################
 #Parameters 
@@ -44,7 +45,9 @@ chmod 440  /etc/sudoers.d/050_support
 #If server is app1 - install squid proxy
 # This server has to be setup first in group of 4 servers 
 
+echo "Hostname: $HOSTNAME"
 if [[ "$HOSTNAME" == *"app1"* ]]; then
+  echo "Execute configuration for app1 server"
   #Oracle Linux
   dnf -y update
   dnf install -y oraclelinux-release-el8
