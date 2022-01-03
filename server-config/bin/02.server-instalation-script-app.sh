@@ -120,7 +120,7 @@ find /data/www -type f -exec chmod 640 {} \;
 #Update selinux to allow nginx from different directory
 
 #Update envirement 
-
+ 
 echo "export PS1='\u@\h:\w\n#'" > /etc/profile.d/custom.sh
 echo "export PATH=$PATH:$HOME/bin" >> /etc/profile.d/custom.sh
 #SEt proxy servers in profile 
