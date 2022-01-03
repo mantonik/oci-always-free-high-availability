@@ -3,7 +3,8 @@
 
 # Version 
 # 12/27/2021 
-
+# 1/3/2022 - change start of squid after instaltion from restart -> start
+ 
 ##################
 #Parameters 
 ##################
@@ -53,7 +54,7 @@ if [[ "$HOSTNAME" == *"app1"* ]]; then
   echo "This is app1 servers, install squid."
   dnf -y install squid
   chkconfig squid on
-  service restart squid
+  service start squid
 
   #Update dnf.conf file - add proxy line
   echo "proxy=http://10.10.1.11:3128" >>  /etc/dnf/dnf.conf
