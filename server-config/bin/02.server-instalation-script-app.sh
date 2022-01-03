@@ -7,7 +7,7 @@
 #  add note for server app1
 # delete proxy entry fron dnf file
 # update envirement proxy values
-#
+# add mc
 #
 
 ##################
@@ -82,7 +82,7 @@ fi
 
 
 dnf install -y nginx php php-fpm php-mysqlnd php-json
-dnf install -y wget sendmail mc htop tmux
+dnf install -y wget sendmail mc htop tmux mc
 dnf install -y rsync
 dnf install -y clamav clamav-update 
 dnf install -y perl-CPAN
