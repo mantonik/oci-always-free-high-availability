@@ -6,6 +6,10 @@
 # 1/3/2022 - change start of squid after instaltion from restart -> start
 #  add note for server app1
 # delete proxy entry fron dnf file
+# update envirement proxy values
+#
+#
+
 ##################
 #Parameters 
 ##################
@@ -60,12 +64,11 @@ if [[ "$HOSTNAME" == *"app1"* ]]; then
   dnf -y install squid
   chkconfig squid on
   systemctl stop squid
+  systemctl start squid
 
   #Update dnf.conf file - add proxy line
   echo "proxy=http://10.10.1.11:3128" >>  /etc/dnf/dnf.conf
   echo "" >>  /etc/dnf/dnf.conf
-
-
 else 
   #Update dnf.conf file - add proxy line, All servers need to connect throw proxy server
   echo "proxy=http://10.10.1.11:3128" >>  /etc/dnf/dnf.conf
@@ -117,11 +120,12 @@ find /data/www -type f -exec chmod 640 {} \;
 #Update selinux to allow nginx from different directory
 
 #Update envirement 
+
 echo "export PS1='\u@\h:\w\n#'" > /etc/profile.d/custom.sh
 echo "export PATH=$PATH:$HOME/bin" >> /etc/profile.d/custom.sh
 #SEt proxy servers in profile 
 echo "export http_proxy=http://10.10.1.11:3128/" >> /etc/profile.d/custom.sh
-echo "export http_proxy=https://10.10.1.11:3128/" >> /etc/profile.d/custom.sh
+echo "export https_proxy=http://10.10.1.11:3128/" >> /etc/profile.d/custom.sh
 echo "export no_proxy=" >> /etc/profile.d/custom.sh
 . /etc/profile 
 
