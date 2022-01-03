@@ -11,7 +11,7 @@ sudo dnf install -y wget
 cd bin 
 
 #download instalation files 
-wget https://github.com/mantonik/oci-always-free-high-availability/blob/main/server-config/bin/02.server-instalation-script-app.sh
+wget https://raw.githubusercontent.com/mantonik/oci-always-free-high-availability/main/server-config/bin/02.server-instalation-script-app.sh
 
 chmod 750 *.sh
 
