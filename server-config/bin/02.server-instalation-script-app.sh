@@ -5,7 +5,7 @@
 # 12/27/2021 
 # 1/3/2022 - change start of squid after instaltion from restart -> start
 #  add note for server app1
- 
+# delete proxy entry fron dnf file
 ##################
 #Parameters 
 ##################
@@ -40,15 +40,17 @@ echo "support ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/050_support
 #echo "support ALL=(ALL) ALL" > /etc/sudoers.d/050_support
 chmod 440  /etc/sudoers.d/050_support
 
-
-
 #If server is app1 - install squid proxy
 # This server has to be setup first in group of 4 servers 
+
+#delete proxy entry from dnf config file
+sed -i '/^proxy=http/d' /etc/dnf/dnf.conf
 
 echo "Hostname: $HOSTNAME"
 if [[ "$HOSTNAME" == *"app1"* ]]; then
   echo "Execute configuration for app1 server"
   #Oracle Linux
+  
   dnf -y update
   dnf install -y oraclelinux-release-el8
   dnf config-manager --set-enabled ol8_developer_EPEL
@@ -57,7 +59,7 @@ if [[ "$HOSTNAME" == *"app1"* ]]; then
   echo "This is app1 servers, install squid."
   dnf -y install squid
   chkconfig squid on
-  service start squid
+  systemctl stop squid
 
   #Update dnf.conf file - add proxy line
   echo "proxy=http://10.10.1.11:3128" >>  /etc/dnf/dnf.conf
@@ -68,7 +70,6 @@ else
   #Update dnf.conf file - add proxy line, All servers need to connect throw proxy server
   echo "proxy=http://10.10.1.11:3128" >>  /etc/dnf/dnf.conf
   echo "" >>  /etc/dnf/dnf.conf
-
   dnf -y update
   dnf install -y oraclelinux-release-el8
   dnf config-manager --set-enabled ol8_developer_EPEL
