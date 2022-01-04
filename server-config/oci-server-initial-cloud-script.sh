@@ -3,21 +3,18 @@
 #
 # Version 
 # 1.1 - add list of files to download
+# 1.2 - add repo veriable 
 #
 # this file 
 # wget https://raw.githubusercontent.com/mantonik/oci-always-free-high-availability/main/server-config/oci-server-initial-cloud-script.sh
 #
-#
+# 
 
-
-sudo dnf install -y wget
-rm -rf $HOME/bin 
+export REPO=master
 mkdir $HOME/bin 
 cd $HOME/bin  
 
 #download instalation files 
-wget https://raw.githubusercontent.com/mantonik/oci-always-free-high-availability/main/server-config/bin/02.server-instalation-script-app.sh
-
+wget https://raw.githubusercontent.com/mantonik/oci-always-free-high-availability/${REPO}/server-config/bin/02.server-instalation-script-app.sh  
 chmod 750 *.sh
-
-
+#sudo 02.server-instalation-script-app.sh /var/log/server_setup.log

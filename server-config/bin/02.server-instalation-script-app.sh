@@ -63,6 +63,7 @@ if [[ "$HOSTNAME" == *"app1"* ]]; then
   echo "This is app1 servers, install squid."
   dnf -y install squid
   chkconfig squid on
+  echo "Restart squid"
   systemctl stop squid
   systemctl start squid
 
@@ -80,17 +81,11 @@ else
 fi
 
 
-
+echo "Install required packages"
 dnf install -y nginx php php-fpm php-mysqlnd php-json
 dnf install -y wget sendmail mc htop tmux mc
 dnf install -y rsync
 dnf install -y clamav clamav-update 
-dnf install -y perl-CPAN
-dnf install -y perl-libwww-perl.noarch 
-dnf install -y perl-LWP-Protocol-https.noarch 
-dnf install -y perl-GDGraph 
-dnf install -y perl-Math-BigInt.noarch
-
 
 mkdir -p /data/www/default/htdocs
 dnf module list php
@@ -98,9 +93,7 @@ dnf -y module reset php
 dnf -y module enable php:7.4
 dnf module list php
 
-
 #If servers are app2 and app4 - install MySQL 
-
 
 mv /usr/share/nginx/html/* /data/www/default/htdocs
 rm -fr /usr/share/nginx/html
@@ -129,24 +122,14 @@ echo "export https_proxy=http://10.10.1.11:3128/" >> /etc/profile.d/custom.sh
 echo "export no_proxy=" >> /etc/profile.d/custom.sh
 . /etc/profile 
 
-#Install CSF
-mkdir /root/install
-cd /root/install 
-wget -e https_proxy=10.10.1.11:3128  https://download.configserver.com/csf.tgz
-tar xzvf csf.tgz
 
-cd /root/install/csf
-./install.sh
+#Install MySQL on app2 and app4
 
-#update configuration
-cd /etc/csf
-cp csf.conf csf.conf.org
-sed -i 's/TESTING = "1"/TESTING = "0"/g' csf.conf
-sed -i 's/TCP_IN = "20,21,22,25,53,80,110,143,443,465,587,993,995"/TCP_IN = "22,80,3306,3128"/g' csf.conf
-sed -i 's/TCP_OUT = "20,21,22,25,53,80,110,113,443,587,993,995"/TCP_OUT = "25,53,80,113,443,3306,3128"/g' csf.conf
-sed -i 's/UDP_IN = "20,21,53,80,443"/UDP_IN = ""/g' csf.conf
-sed -i 's/UDP_OUT = "20,21,53,113,123"/UDP_OUT = "53,113,123"/g' csf.conf
+if [[ "$HOSTNAME" == *"app2"* ] || [ "$HOSTNAME" == *"app4"* ]]; then
+  dnf install -y mysql 
+  systemctl mysqld start 
 
+fi
 
 #PHP configuration 
 echo "#Enable mysqli extension" >> /etc/php.ini
@@ -155,8 +138,8 @@ sed -i 's/user = apache/user = nginx/g' /etc/php-fpm.d/www.conf
 sed -i 's/group = apache/group = nginx/g' /etc/php-fpm.d/www.conf
 
 #Update SElinux 
-sed -i 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/selinux/config
-setenforce 0
+#sed -i 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/selinux/config
+#setenforce 0
 
 #set local time 
 timedatectl set-timezone America/New_York
@@ -172,16 +155,12 @@ sed -i 's/#MaxAuthTries 6/MaxAuthTries 6/g' /etc/ssh/sshd_config
 sed -i 's/#Banner none/Banner \/etc\/ssh\/banner.txt/g' /etc/ssh/sshd_config 
 sed -i 's/#TCPKeepAlive yes/TCPKeepAlive yes/g' /etc/ssh/sshd_config 
 
-
-
 echo "##################################################" > /etc/ssh/banner.txt
 echo "This is private system only for authrorized users." >> /etc/ssh/banner.txt
 echo "Logout if you are not authorized " >> /etc/ssh/banner.txt
 echo "##################################################" >> /etc/ssh/banner.txt
 echo " " >> /etc/ssh/banner.txt
 echo " " >> /etc/ssh/banner.txt
-
-
 
 #set services to start automaticly
 chkconfig nginx on
@@ -199,10 +178,7 @@ echo " - csf"
 csf -r
 echo ""
 
-
-
 service sshd restart
-
 
 #Set service restart script 
 mkdir /root/bin
@@ -241,9 +217,6 @@ crontab ${ROOTCRONFILE}
 #setup rsync script 
 touch /root/bin/rsync_servers.sh 
 chmod 700 /root/bin/rsync_servers.sh
-
-
-
 
 date
 date >> /tmp/instalation-script.txt
