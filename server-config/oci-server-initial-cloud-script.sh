@@ -10,11 +10,11 @@
 #
 # 
 
-export REPO=master
+export REPO=dev
 mkdir $HOME/bin 
 cd $HOME/bin  
-
 #download instalation files 
 wget https://raw.githubusercontent.com/mantonik/oci-always-free-high-availability/${REPO}/server-config/bin/02.server-instalation-script-app.sh  
 chmod 750 *.sh
-#sudo 02.server-instalation-script-app.sh /var/log/server_setup.log
+sudo -scan
+./02.server-instalation-script-app.sh | tee /var/log/server_setup.log

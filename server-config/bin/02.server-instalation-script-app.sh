@@ -8,15 +8,16 @@
 # delete proxy entry fron dnf file
 # update envirement proxy values
 # add mc
-#
-
+# add coments to install mysql on app2,4
+# add a variable for supportsshkey
+# fixif condition fo rapp2, app4
 ##################
 #Parameters 
 ##################
 
 SUPORTPASS="OciSupp0rt6758)"
 ROOTPASS="Edchjuy784576&"
-
+SUPPORTPUBKEY="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDEKd3NF56oAnOJMRGmGd/XLia2lSP6CHzXVW2adHhqo0znA8F6D3EBFAGyBPkp9N+6lfPVNNTdkRaxAdn6Lcy1aHQCTjCL1jbtbZHc3/nD5tIAeZuqb5c3uurHTRaqQSYxGvkSbBtFJfOEbatvO110VS7oE58CvEuAZTdE1czGQB/lg8xdnDvWcXDxyNvmYA8AdbwXAf/26KqIaawkTpE5VTdL1Ud2M81vnBHI5AwANZugdYiw2Y1ztKhScLSHdGtvx8nR409kk1NcDKliI6IZa9Z5Ox4WQlZiGsoy6uQ13CYEm4B+F8qg2OWE7yoLqxxnnj539q6FIozGo8A/jdDvnemdG6B7xaXeCWY4DesShpm/xacWUGfjVeSPU4NC/Appn5Y/G0AkNQ6359Ha8xT0Wep7LFUWMHaQWIGnL3hlgT+jwC88uIxwih8JM+O5HKprtnnEtlEBkuhRzcmT77DL14i8BFcNvLS2/BBlA+BYgCqR7ADD7K092xNt6aLQc6snkyGHI2OK9gLp9+/lWt/SvYX9cAVpPjaHNJ7quxH7PYQ/T3p3FwaPVSHg76fX0j/TMqevrjdG5lSsu+Mh44UsMfEymJJgP5LZSzzWPLM7Ol3BwbTRKhbsVzdaV+VVCtVgPPIY1n5vWwTsEfMtXEGaVVoOUftZgu/3+ZBwGCq/OQ== mariusz@mac"
 #########
 #disable firewall
 systemctl disable firewalld
@@ -26,7 +27,7 @@ systemctl stop firewalld
 groupadd -g 1099 support
 useradd -u 1099 -g 1099 support
 mkdir -p /home/support/.ssh
-echo  "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDEKd3NF56oAnOJMRGmGd/XLia2lSP6CHzXVW2adHhqo0znA8F6D3EBFAGyBPkp9N+6lfPVNNTdkRaxAdn6Lcy1aHQCTjCL1jbtbZHc3/nD5tIAeZuqb5c3uurHTRaqQSYxGvkSbBtFJfOEbatvO110VS7oE58CvEuAZTdE1czGQB/lg8xdnDvWcXDxyNvmYA8AdbwXAf/26KqIaawkTpE5VTdL1Ud2M81vnBHI5AwANZugdYiw2Y1ztKhScLSHdGtvx8nR409kk1NcDKliI6IZa9Z5Ox4WQlZiGsoy6uQ13CYEm4B+F8qg2OWE7yoLqxxnnj539q6FIozGo8A/jdDvnemdG6B7xaXeCWY4DesShpm/xacWUGfjVeSPU4NC/Appn5Y/G0AkNQ6359Ha8xT0Wep7LFUWMHaQWIGnL3hlgT+jwC88uIxwih8JM+O5HKprtnnEtlEBkuhRzcmT77DL14i8BFcNvLS2/BBlA+BYgCqR7ADD7K092xNt6aLQc6snkyGHI2OK9gLp9+/lWt/SvYX9cAVpPjaHNJ7quxH7PYQ/T3p3FwaPVSHg76fX0j/TMqevrjdG5lSsu+Mh44UsMfEymJJgP5LZSzzWPLM7Ol3BwbTRKhbsVzdaV+VVCtVgPPIY1n5vWwTsEfMtXEGaVVoOUftZgu/3+ZBwGCq/OQ== mariusz@mac" > /home/support/.ssh/authorized_keys
+echo  ${SUPPORTPUBKEY} > /home/support/.ssh/authorized_keys
 echo " " >> /home/support/.ssh/authorized_keys
 chmod 700 /home/support/.ssh
 chmod 640 /home/support/.ssh/authorized_keys
@@ -125,7 +126,8 @@ echo "export no_proxy=" >> /etc/profile.d/custom.sh
 
 #Install MySQL on app2 and app4
 
-if [[ "$HOSTNAME" == *"app2"* ] || [ "$HOSTNAME" == *"app4"* ]]; then
+if [ [ "$HOSTNAME" == *"app2"* ] || [ "$HOSTNAME" == *"app4"* ] ]; then
+  echo "Host app2 or app4 - install MySQL"
   dnf install -y mysql 
   systemctl mysqld start 
 
