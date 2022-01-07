@@ -126,9 +126,9 @@ echo "export no_proxy=" >> /etc/profile.d/custom.sh
 
 #Install MySQL on app2 and app4
 
-if [ [ "$HOSTNAME" == *"app2"* ] || [ "$HOSTNAME" == *"app4"* ] ]; then
+if [ "$HOSTNAME" == *"app2"* ] || [ "$HOSTNAME" == *"app4"* ] ; then
   echo "Host app2 or app4 - install MySQL"
-  dnf install -y mysql 
+  dnf install -y mysql-server 
   systemctl mysqld start 
 
 fi

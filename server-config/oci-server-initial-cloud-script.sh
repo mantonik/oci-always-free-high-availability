@@ -16,5 +16,5 @@ cd $HOME/bin
 #download instalation files 
 wget https://raw.githubusercontent.com/mantonik/oci-always-free-high-availability/${REPO}/server-config/bin/02.server-instalation-script-app.sh  
 chmod 750 *.sh
-sudo -scan
-./02.server-instalation-script-app.sh | tee /var/log/server_setup.log
+sudo -s
+/home/opc/bin/02.server-instalation-script-app.sh | tee /var/log/server_setup.log
