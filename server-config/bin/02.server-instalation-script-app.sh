@@ -102,7 +102,7 @@ sed -i 's/group = apache/group = nginx/g' /etc/php-fpm.d/www.conf
 
 
 #If servers are app2 and app4 - install MySQL 
-mv /usr/share/nginx/html/* /data/www/default/htdocs
+#mv /usr/share/nginx/html/* /data/www/default/htdocs
 rm -fr /usr/share/nginx/html
 ln -s /data/www/default/htdocs /usr/share/nginx/html
 rm -f /data/www/default/htdocs/index.html
