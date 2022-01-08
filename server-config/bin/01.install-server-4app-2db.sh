@@ -4,8 +4,9 @@
 # check if user is root
 
 #Run main instalation on each server 
+
 echo "Run instalation script"
-${HOME}/bin/02.server-instalation-script-app.sh
+/home/opc/bin/02.server-instalation-script-app.sh
 
 #Run DB instalation on app2 and app4 only 
 

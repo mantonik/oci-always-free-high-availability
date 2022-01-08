@@ -19,7 +19,7 @@ cp -a oci-always-free-high-availability-${REPO}/server-config/* ${HOME}/
 cd ${HOME}
 ls -l
 
-./bin/01.install-server-4app-2db.sh
+sudo ./bin/01.install-server-4app-2db.sh
 
 #########
 APP 2,3,4
@@ -39,7 +39,7 @@ cp -a oci-always-free-high-availability-${REPO}/server-config/* ${HOME}/
 cd ${HOME}
 ls -l
 
-./bin/01.install-server-4app-2db.sh
+sudo ./bin/01.install-server-4app-2db.sh
 
 #########
 
@@ -50,4 +50,8 @@ For support requests allow SSH access from IP:  107.150.23.152
 
 # on app1 servers set ntfs share drive which will be mounted on other server for instalation purpose.
 # this way repository need to be sync only to single server app1 not rest of the servers.
+#
+# rclone for mounting remote drives like google drive for backup purpose.
+#
+#
 #
