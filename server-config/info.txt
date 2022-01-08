@@ -1,9 +1,11 @@
 to copy complete repository, and use process base on zip 
+#wget https://github.com/mantonik/oci-always-free-high-availability/archive/refs/heads/main.zip
 
-wget https://github.com/mantonik/oci-always-free-high-availability/archive/refs/heads/main.zip
-unzip main.zip
-cp -a oci-always-free-high-availability-main/server-config/* ${HOME}/
 
-chmod 750 oci-server-initial-cloud-script.sh
+export REPO=dev 
+wget https://github.com/mantonik/oci-always-free-high-availability/archive/refs/heads/${REPO}.zip
+unzip $REPO.zip
+cp -a oci-always-free-high-availability-REPO/server-config/* ${HOME}/
+chmod 750 install-server-4app-2db.sh
 cd ${HOME}
-./oci-server-initial-cloud-script.sh
+./install-server-4app-2db.sh
