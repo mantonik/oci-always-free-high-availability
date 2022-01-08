@@ -15,6 +15,6 @@
 # Daily update.
 21 1 * * * /bin/dnf -y update
 # Daily rysnc file system between APP1 and remaining servers .
-55 0 * * * /root/bin/rsync_servers.sh
+55 0 * * * /home/opc/bin/rsync_app_servers.sh
 # Daily Service restart.
-0 1 * * * /root/bin/services.restart.sh
+0 1 * * * /home/opc/bin/services.restart.sh
