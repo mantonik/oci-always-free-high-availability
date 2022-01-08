@@ -9,7 +9,7 @@
 #############################################################################################
 . /etc/profile
 
-if [ $1"x" == "x"]; then
+if [ $1"x" == "x" ]; then
   #set sleep time that each server will restart services on different time
   RN=`shuf -i 0-180 -n 1`
   echo "Wait for ${RN} seconds"
