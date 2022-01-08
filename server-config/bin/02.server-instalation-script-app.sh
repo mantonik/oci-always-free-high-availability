@@ -12,7 +12,7 @@
 # add a variable for supportsshkey
 # fixif condition fo rapp2, app4
 # 1/8/2022 Mariusz - add reference to scripts which will perform isntalation
-#
+#   fix name of the sshd_config file
 ##################
 #Parameters 
 ##################
@@ -32,6 +32,10 @@ systemctl stop firewalld
 groupadd -g 1099 support
 useradd -u 1099 -g 1099 support
 usermod -G adm support
+
+#Add user opc to nginx group
+usermod -G opc nginx
+
 
 #Chagne support user passwrod
 echo ${SUPORTPASS} | passwd --stdin support
@@ -104,7 +108,7 @@ ln -s /data/www/default/htdocs /usr/share/nginx/html
 rm -f /data/www/default/htdocs/index.html
 
 #Backup original configuration 
-cp /etc/ssh/sshd_cofig /etc/ssh/sshd_cofig.${DT}
+cp /etc/ssh/sshd_config /etc/ssh/sshd_config.${DT}
 
 #set local time 
 timedatectl set-timezone America/New_York
@@ -132,9 +136,10 @@ date >> /tmp/instalation-script.txt
 echo "Instalation script completed " >> /tmp/instalation-script.txt
 
 #test website up
+echo "-----"
 curl http://localhost/test.html
-------
+echo "-----"
 curl http://localhost/test.php
-----------
+echo "-----"
 curl http://localhost/health-check.php
 exit
