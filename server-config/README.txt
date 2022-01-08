@@ -38,8 +38,7 @@ unzip ${REPO}.zip
 cp -a oci-always-free-high-availability-${REPO}/server-config/* ${HOME}/
 cd ${HOME}
 ls -l
-
-sudo ./bin/01.install-server-4app-2db.sh
+sudo /home/opc/bin/01.install-server-4app-2db.sh
 
 #########
 

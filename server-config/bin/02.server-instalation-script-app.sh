@@ -33,8 +33,6 @@ groupadd -g 1099 support
 useradd -u 1099 -g 1099 support
 usermod -G adm support
 
-#Add user opc to nginx group
-usermod -G opc nginx
 
 
 #Chagne support user passwrod
@@ -93,6 +91,8 @@ dnf -y module reset php
 dnf -y module enable php:7.4
 dnf module list php
 
+#Add user opc to nginx group
+usermod -G opc nginx
 
 #PHP configuration 
 echo "#Enable mysqli extension" >> /etc/php.ini

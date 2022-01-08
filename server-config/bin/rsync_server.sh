@@ -5,7 +5,7 @@
 #
 echo ""
 echo "Rsync configuration folder wtih root file system"
-rsync --rltDv --no-owner /home/opc/configuration/ /
+rsync -rltDv --no-owner /home/opc/configuration/ /
 
 #Secure critical configuration 
 chown root:root /etc/sudoers.d
