@@ -6,9 +6,9 @@
 # 1.2 - add repo veriable 
 #
 # this file 
-# wget https://raw.githubusercontent.com/mantonik/oci-always-free-high-availability/main/server-config/oci-server-initial-cloud-script.sh
-#
-# 
+# export https_proxy=http://10.10.1.11:3128; wget https://raw.githubusercontent.com/mantonik/oci-always-free-high-availability/main/server-config/oci-server-initial-cloud-script.sh
+# chmod 750 oci-server-initial-cloud-script.sh
+# ./oci-server-initial-cloud-script.sh
 
 export REPO=dev
 mkdir $HOME/bin 
