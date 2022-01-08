@@ -5,11 +5,12 @@
 # when pass paramter now ( any parameter), then wait time will be skiped
 #
 # v 1.0 1/9/2022 Mariusz, initial version 
+#   1.1 - fix if condition
 #
 #############################################################################################
 . /etc/profile
 
-if [ $1"x" == "x"]
+if [ $1"x" == "x"]; then
   #set sleep time that each server will restart services on different time
   RN=`shuf -i 0-180 -n 1`
   echo "Wait for ${RN} seconds"
