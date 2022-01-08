@@ -5,7 +5,6 @@
 # when pass paramter now ( any parameter), then wait time will be skiped
 #
 # v 1.0 1/9/2022 Mariusz, initial version 
-#   1.1 - fix if condition
 #
 #############################################################################################
 . /etc/profile
