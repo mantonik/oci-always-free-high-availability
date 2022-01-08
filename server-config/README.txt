@@ -7,7 +7,7 @@ Run below comands on respective servers as OPC user
 APP1
 ##########
 
-export REPO=dev 
+export REPO=dev-2
 REPODIR=${HOME}/repository/${REPO}
 cd ${HOME}
 rm -rf * 
@@ -25,7 +25,7 @@ ls -l
 APP 2,3,4
 #########
 
-export REPO=dev 
+export REPO=dev-2
 export REPODIR=${HOME}/repository/${REPO}
 export https_proxy=http://10.10.1.11:3128;
 export http_proxy=http://10.10.1.11:3128;
@@ -48,3 +48,6 @@ ls -l
 
 For support requests allow SSH access from IP:  107.150.23.152
 
+# on app1 servers set ntfs share drive which will be mounted on other server for instalation purpose.
+# this way repository need to be sync only to single server app1 not rest of the servers.
+#

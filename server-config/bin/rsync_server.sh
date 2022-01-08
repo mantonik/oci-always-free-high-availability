@@ -5,7 +5,11 @@
 #
 echo ""
 echo "Rsync configuration folder wtih root file system"
-rsync -atv /home/opc/configuration/ /
+rsync --rltDv --no-owner /home/opc/configuration/ /
+
+#Secure critical configuration 
+chown root:root /etc/sudoers.d
+
 echo "--- Completed ---"
 echo ""
 # END
