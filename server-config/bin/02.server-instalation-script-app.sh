@@ -124,14 +124,7 @@ echo "export no_proxy=" >> /etc/profile.d/custom.sh
 . /etc/profile 
 
 
-#Install MySQL on app2 and app4
 
-if [ "$HOSTNAME" == *"app2"* ] || [ "$HOSTNAME" == *"app4"* ] ; then
-  echo "Host app2 or app4 - install MySQL"
-  dnf install -y mysql-server 
-  systemctl mysqld start 
-
-fi
 
 #PHP configuration 
 echo "#Enable mysqli extension" >> /etc/php.ini
@@ -176,8 +169,8 @@ systemctl restart php-fpm.service
 systemctl restart nginx
 systemctl restart sshd
 
-echo " - csf"
-csf -r
+#echo " - csf"
+#csf -r
 echo ""
 
 service sshd restart
