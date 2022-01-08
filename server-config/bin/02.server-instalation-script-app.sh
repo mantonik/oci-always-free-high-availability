@@ -128,7 +128,7 @@ chkconfig sendmail on
 chkconfig php-fpm on
 
 # restart services
-/home/opc/bin/restart_services.sh
+/home/opc/bin/restart_services.sh now
 
 
 date
