@@ -186,3 +186,8 @@ echo ""
 echo "-----    Version 02.server-instalation-script-app.sh: ${version}    -----"
 echo ""
 exit
+
+# curl http://10.10.1.11/health-check.php
+# curl http://10.10.1.12/health-check.php
+# curl http://10.10.1.13/health-check.php
+# curl http://10.10.1.14/health-check.php
