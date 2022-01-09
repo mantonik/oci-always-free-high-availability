@@ -1,6 +1,6 @@
 # v1.1 
 # 1/8/2022 initial version of the root crontab file 
-#
+# 1/9/2022 to clamav log add hostname
 ############################################################################################
 # IMPORTANT
 # Do not edit this fiel 
@@ -10,9 +10,9 @@
 # Update ClamAV virus definitions
 0 10 * * * /usr/bin/freshclam
 # AntiVirus scan.
-0 11 * * * /usr/bin/clamscan --detect-pua -i -r /data --log="/var/log/clamav/clamscan_data_$(date +\%Y-\%m-\%d).log" 2>/dev/null
-20 11 * * * /usr/bin/clamscan --detect-pua -i -r /home --log="/var/log/clamav/clamscan_home_$(date +\%Y-\%m-\%d).log" 2>/dev/null
-30 11 * * 1 /usr/bin/clamscan --detect-pua -i -r / --log="/var/log/clamav/clamscan_full_$(date +\%Y-\%m-\%d).log" 2>/dev/null
+0 11 * * 1-6 /usr/bin/clamscan --detect-pua -i -r /data --log="/var/log/clamav/$HOSTNAME_clamscan_data_$(date +\%Y-\%m-\%d).log" 2>/dev/null
+20 11 * * 1-6 /usr/bin/clamscan --detect-pua -i -r /home --log="/var/log/clamav/$HOSTNAME_clamscan_home_$(date +\%Y-\%m-\%d).log" 2>/dev/null
+30 11 * * 0 /usr/bin/clamscan --detect-pua -i -r / --log="/var/log/clamav/$HOSTNAME_clamscan_full_$(date +\%Y-\%m-\%d).log" 2>/dev/null
 # Daily update.
 21 1 * * * /bin/dnf -y update
 # Daily rysnc file system between APP1 and remaining servers .

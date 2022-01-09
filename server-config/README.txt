@@ -29,6 +29,7 @@ export REPO=dev-2
 export REPODIR=${HOME}/repository/${REPO}
 export https_proxy=http://10.10.1.11:3128;
 export http_proxy=http://10.10.1.11:3128;
+. /etc/profile
 cd ${HOME}
 rm -rf * 
 mkdir -p ${REPODIR}

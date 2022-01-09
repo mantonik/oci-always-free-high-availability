@@ -19,6 +19,7 @@
 
 SUPORTPASS="OciSupp0rt6758\)"
 ROOTPASS="Edchjuy784576\&"
+TIMEZONE=America/New_York
 #SUPPORTPUBKEY="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDEKd3NF56oAnOJMRGmGd/XLia2lSP6CHzXVW2adHhqo0znA8F6D3EBFAGyBPkp9N+6lfPVNNTdkRaxAdn6Lcy1aHQCTjCL1jbtbZHc3/nD5tIAeZuqb5c3uurHTRaqQSYxGvkSbBtFJfOEbatvO110VS7oE58CvEuAZTdE1czGQB/lg8xdnDvWcXDxyNvmYA8AdbwXAf/26KqIaawkTpE5VTdL1Ud2M81vnBHI5AwANZugdYiw2Y1ztKhScLSHdGtvx8nR409kk1NcDKliI6IZa9Z5Ox4WQlZiGsoy6uQ13CYEm4B+F8qg2OWE7yoLqxxnnj539q6FIozGo8A/jdDvnemdG6B7xaXeCWY4DesShpm/xacWUGfjVeSPU4NC/Appn5Y/G0AkNQ6359Ha8xT0Wep7LFUWMHaQWIGnL3hlgT+jwC88uIxwih8JM+O5HKprtnnEtlEBkuhRzcmT77DL14i8BFcNvLS2/BBlA+BYgCqR7ADD7K092xNt6aLQc6snkyGHI2OK9gLp9+/lWt/SvYX9cAVpPjaHNJ7quxH7PYQ/T3p3FwaPVSHg76fX0j/TMqevrjdG5lSsu+Mh44UsMfEymJJgP5LZSzzWPLM7Ol3BwbTRKhbsVzdaV+VVCtVgPPIY1n5vWwTsEfMtXEGaVVoOUftZgu/3+ZBwGCq/OQ== mariusz@mac"
 #########
 
@@ -43,6 +44,9 @@ echo ${ROOTPASS} | passwd --stdin root
 
 #add sudo access to support user 
 
+#Add required directory
+mkdir /var/log/audit.d
+touch /var/log/audit.d/audit.log
 
 #delete proxy entry from dnf config file
 sed -i '/^proxy=http/d' /etc/dnf/dnf.conf
@@ -80,7 +84,7 @@ fi
 
 echo "Install required packages"
 dnf install -y nginx php php-fpm php-mysqlnd php-json
-dnf install -y sendmail htop tmux mc rsync clamav clamav-update rclone
+dnf install -y sendmail htop tmux mc rsync clamav clamav-update rclone setroubleshoot-server setools-console
 
 
 #Setup web folder structure
@@ -110,22 +114,28 @@ rm -f /data/www/default/htdocs/index.html
 #Backup original configuration 
 cp /etc/ssh/sshd_config /etc/ssh/sshd_config.${DT}
 
-#set local time 
-timedatectl set-timezone America/New_York
+#set local time
+echo "Set timezone to America/New_York" 
+timedatectl set-timezone ${TIMEZONE}
 
 #Execute rsync process
+echo "Rsync server files"
 /home/opc/bin/rsync_server.sh
 
 #Set permissions for file system
+echo "Set permissions"
 /home/opc/bin/set_permissions.sh
 
 #set root crontab 
+echo "Set root crontab"
 /home/opc/bin/update_root_cron.sh
 
-#get latest clamav definitiono
+#get latest clamav definition
+echo "Pull latest clamav configuration"
 /usr/bin/freshclam
 
 #set services to start automaticly
+echo "Set auto startup of applications"
 chkconfig nginx on
 chkconfig sendmail on
 chkconfig php-fpm on
@@ -138,12 +148,21 @@ chkconfig php-fpm on
 
 #Load policy
 # https://www.nginx.com/blog/using-nginx-plus-with-selinux/
+# crate policy for php-fm
+# ausearch -c 'php-fpm' --raw | audit2allow -M my-phpfpm
 
 #SET enforcing for current session
+echo "Set SELINUX permission for nginx to serve from /data/www folder"
 setenforce 1
-semodule -i nginx.pp
+sealert -a /var/log/audit.d/audit.log 
+semodule -i /etc/selinux/nginx.pp
+setsebool httpd_can_network_connect on
+
+setsebool httpd_use_nfs on
+
 
 # restart services
+echo "Restart services"
 /home/opc/bin/restart_services.sh now
 
 date
