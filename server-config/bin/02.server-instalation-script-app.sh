@@ -13,9 +13,12 @@
 # fixif condition fo rapp2, app4
 # 1/8/2022 Mariusz - add reference to scripts which will perform isntalation
 #   fix name of the sshd_config file
+# 1/9/2022 Add selinux handling
+#
 ##################
 #Parameters 
 ##################
+version 20220109.01
 
 SUPORTPASS="OciSupp0rt6758\)"
 ROOTPASS="Edchjuy784576\&"
@@ -156,8 +159,9 @@ echo "Set SELINUX permission for nginx to serve from /data/www folder"
 setenforce 1
 sealert -a /var/log/audit.d/audit.log 
 semodule -i /etc/selinux/nginx.pp
-setsebool httpd_can_network_connect on
+semodule -i /etc/selinux/my-phpfpm.pp
 
+setsebool httpd_can_network_connect on
 setsebool httpd_use_nfs on
 
 
@@ -176,4 +180,8 @@ echo "-----"
 curl -v http://localhost/test.php
 echo "-----"
 curl -v http://localhost/health-check.php
+
+echo ""
+echo "-----    Version: ${version}    -----"
+echo "-------------------------------------"
 exit
