@@ -4,7 +4,7 @@
 # v 1.2 delete full repository folder before uploading new files
 # v 1.3 rsync_server
 #Script will sync from repository to local 
-version=1.4
+version=1.5
 
 export REPO=dev-2
 export REPODIR=${HOME}/repository/${REPO}
@@ -27,6 +27,6 @@ echo "-----------------------"
 echo "Execute Rsync Server"
 sudo /home/opc/bin/rsync_server.sh
 
-echo "----------------------"
+echo "---------------------------------------"
 echo "Version update_repository : ${version}"
-echo "----------------------"
+echo "---------------------------------------"
