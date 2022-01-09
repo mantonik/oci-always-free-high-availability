@@ -6,6 +6,13 @@
 #
 version=1.1
 
+func_required_folders() {
+
+    if [ ! -e $1 ]; then 
+        echo "Create folder"
+        mkdir -p $1
+    fi 
+}
 
 # ref: https://askubuntu.com/a/30157/8698
 if ! [ $(id -u) = 0 ]; then
@@ -28,6 +35,9 @@ rsync -rltDv --no-owner /home/opc/configuration/ /
 
 #update root crontab 
 /home/opc/bin/update_root_cron.sh
+
+#Check for required folders
+func_required_folders "/var/log/clamav"
 
 echo "--- Completed ---"
 echo "----------------------"
