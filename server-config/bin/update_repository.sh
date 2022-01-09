@@ -27,8 +27,6 @@ echo "-----------------------"
 echo "Execute Rsync Server"
 /home/opc/bin/rsync_server.sh
 
-
-
 echo "----------------------"
 echo "Version: ${version}"
 echo "----------------------"
