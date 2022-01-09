@@ -31,13 +31,16 @@ echo ""
 echo "Rsync configuration folder wtih root file system"
 rsync -rltDv --no-owner /home/opc/configuration/ /
 
-/home/opc/bin/set_permissions.sh
 
 #update root crontab 
 /home/opc/bin/update_root_cron.sh
 
 #Check for required folders
 func_required_folders "/var/log/clamav"
+
+
+#set permissions
+/home/opc/bin/set_permissions.sh
 
 echo "--- Completed ---"
 echo "----------------------"

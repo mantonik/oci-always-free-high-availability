@@ -122,6 +122,9 @@ timedatectl set-timezone America/New_York
 #set root crontab 
 /home/opc/bin/update_root_cron.sh
 
+#get latest clamav definitiono
+/usr/bin/freshclam
+
 #set services to start automaticly
 chkconfig nginx on
 chkconfig sendmail on
