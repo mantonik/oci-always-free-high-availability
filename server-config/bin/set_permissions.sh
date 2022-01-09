@@ -1,6 +1,8 @@
 #!/bin/bash 
 #Script will set exepcted permissions on the file system
 
+version=1.1
+
 exho "Set required permissions";
 
 chown -R nginx:nginx /data/www/
@@ -17,5 +19,9 @@ chmod 640 /home/support/.ssh/authorized_keys
 
 #Secure critical configuration 
 chown root:root /etc/sudoers.d
+
+echo "---------------------------"
+echo "Version: ${version}"
+echo "---------------------------"
 
 exit

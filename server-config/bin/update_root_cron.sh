@@ -11,6 +11,7 @@
 # Check if script is running as root
 
 ########
+version=1.2
 
 cat /home/opc/cron/root.cron > /tmp/root.cron
 if [ -e /home/opc/cron/root.cron.custom ]; then
@@ -25,5 +26,7 @@ rm -f /tmp/root.cron
 echo "---------------------------"
 sudo crontab -l
 echo ""
+echo "---------------------------"
+echo "Version: ${version}"
 echo "---------------------------"
 # end 

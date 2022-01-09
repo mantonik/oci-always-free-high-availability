@@ -8,6 +8,7 @@
 #
 #############################################################################################
 . /etc/profile
+version=1.0
 
 if [ $1"x" == "x" ]; then
   #set sleep time that each server will restart services on different time
@@ -53,3 +54,5 @@ systemctl start nginx
 echo "------------------"
 echo "Completed"
 echo "------------------"
+echo "Version: ${version}"
+echo "---------------------------"
