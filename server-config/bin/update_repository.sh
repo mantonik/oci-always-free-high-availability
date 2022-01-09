@@ -25,7 +25,7 @@ ls -l
 
 echo "-----------------------"
 echo "Execute Rsync Server"
-rsync_server 
+/home/opc/bin/rsync_server.sh
 
 
 
