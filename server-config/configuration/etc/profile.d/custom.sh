@@ -8,6 +8,6 @@ export no_proxy=localhost,127.0.0.1
 #display umask values
 #umask -S
 #umask=022 #default
-umask 027
+umask 0027
 
 # END
