@@ -1,8 +1,11 @@
 #!/bin/bash 
 # 
 # 1/8/2022 add delete local repository before pulling from repo
+# v 1.2 delete full repository folder before uploading new files
 #
 #Script will sync from repository to local 
+version=1.2
+
 export REPO=dev-2
 export REPODIR=${HOME}/repository/${REPO}
 export https_proxy=http://10.10.1.11:3128;
@@ -19,3 +22,7 @@ unzip ${REPO}.zip
 cp -a oci-always-free-high-availability-${REPO}/server-config/* ${HOME}/
 cd ${HOME}
 ls -l
+
+echo "----------------------"
+echo "Version: ${version}"
+echo "----------------------"
