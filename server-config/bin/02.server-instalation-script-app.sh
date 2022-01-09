@@ -18,7 +18,7 @@
 ##################
 #Parameters 
 ##################
-version 20220109.01
+version=20220109.01
 
 SUPORTPASS="OciSupp0rt6758\)"
 ROOTPASS="Edchjuy784576\&"
