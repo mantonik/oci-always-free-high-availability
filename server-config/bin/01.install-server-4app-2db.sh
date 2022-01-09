@@ -6,7 +6,7 @@
 #Run main instalation on each server 
 
 echo "Run instalation script"
-/home/opc/bin/02.server-instalation-script-app.sh
+sudo /home/opc/bin/02.server-instalation-script-app.sh
 
 #Run DB instalation on app2 and app4 only 
 
