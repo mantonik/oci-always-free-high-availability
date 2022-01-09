@@ -2,14 +2,15 @@
 # 1.0 initial version 
 # 1.1 add alias
 ###################
-version=1.1
+version=1.2
 
 export PS1='\u@\h:\w\n#'
 export PATH=$PATH:$HOME/bin:/home/opc/bin
 export http_proxy=http://10.10.1.11:3128/
 export https_proxy=http://10.10.1.11:3128/
-export no_proxy=localhost,127.0.0.1,10.10.1.11,10.10.1.12,10.10.1.13,10.10.1.14
-
+export no_proxy=localhost,127.0.0.1,10.10.1.11,10.10.1.12,10.10.1.13,10.10.1.14,169.254.169.254
+# 169.254.169.254 - Oracle cloud server for agent communication 
+#
 #display umask values
 #umask -S
 #umask=022 #default
