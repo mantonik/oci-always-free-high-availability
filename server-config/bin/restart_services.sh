@@ -5,10 +5,11 @@
 # when pass paramter now ( any parameter), then wait time will be skiped
 #
 # v 1.0 1/9/2022 Mariusz, initial version 
+# 1.1 - add oci agent restart
 #
 #############################################################################################
 . /etc/profile
-version=1.0
+version=1.1
 
 if [ $1"x" == "x" ]; then
   #set sleep time that each server will restart services on different time
@@ -16,6 +17,12 @@ if [ $1"x" == "x" ]; then
   echo "Wait for ${RN} seconds"
   sleep ${RN}
 fi
+
+echo "Daemon-reload"
+systemctl daemon-reload
+echo "Restart Oracle Cloud Atent"
+systemctl restart oracle-cloud-agent oracle-cloud-agent-updater
+
 
 #Restart services 
 echo "------------------"
@@ -49,6 +56,7 @@ echo "Start php-fpm"
 systemctl start php-fpm.service
 echo "start nginx"
 systemctl start nginx
+
 
 
 echo "------------------"
