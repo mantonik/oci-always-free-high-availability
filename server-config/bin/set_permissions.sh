@@ -1,9 +1,11 @@
 #!/bin/bash 
 #Script will set exepcted permissions on the file system
+#1.2 - fix echo command
+############################
 
-version=1.1
+version=1.2
 
-exho "Set required permissions";
+echo "Set required permissions";
 
 chown -R nginx:nginx /data/www/
 #All files in web directory should be just readable, no executable allowed in the web directory
