@@ -16,3 +16,4 @@ rsync -rltDv --no-owner /home/opc/configuration/ /
 echo "--- Completed ---"
 echo ""
 # END
+ 
