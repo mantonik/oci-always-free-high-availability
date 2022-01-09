@@ -2,9 +2,9 @@
 # 
 # 1/8/2022 add delete local repository before pulling from repo
 # v 1.2 delete full repository folder before uploading new files
-#
+# v 1.3 rsync_server
 #Script will sync from repository to local 
-version=1.2
+version=1.3
 
 export REPO=dev-2
 export REPODIR=${HOME}/repository/${REPO}
@@ -22,6 +22,12 @@ unzip ${REPO}.zip
 cp -a oci-always-free-high-availability-${REPO}/server-config/* ${HOME}/
 cd ${HOME}
 ls -l
+
+echo "-----------------------"
+echo "Execute Rsync Server"
+rsync_server 
+
+
 
 echo "----------------------"
 echo "Version: ${version}"
