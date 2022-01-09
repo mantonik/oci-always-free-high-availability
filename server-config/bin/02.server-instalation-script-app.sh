@@ -80,7 +80,7 @@ fi
 
 echo "Install required packages"
 dnf install -y nginx php php-fpm php-mysqlnd php-json
-dnf install -y sendmail htop tmux mc rsync clamav clamav-update 
+dnf install -y sendmail htop tmux mc rsync clamav clamav-update rclone
 
 
 #Setup web folder structure

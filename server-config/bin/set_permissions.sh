@@ -22,6 +22,9 @@ chmod 640 /home/support/.ssh/authorized_keys
 #Secure critical configuration 
 chown root:root /etc/sudoers.d
 
+chmod 750 /var/log/clamav
+chown root:root /var/log/clamav
+
 echo "---------------------------"
 echo "Version: ${version}"
 echo "---------------------------"
