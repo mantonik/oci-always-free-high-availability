@@ -157,7 +157,7 @@ chkconfig php-fpm on
 #SET enforcing for current session
 echo "Set SELINUX permission for nginx to serve from /data/www folder"
 setenforce 1
-sealert -a /var/log/audit.d/audit.log 
+#sealert -a /var/log/audit.d/audit.log 
 semodule -i /etc/selinux/nginx.pp
 semodule -i /etc/selinux/my-phpfpm.pp
 
@@ -176,12 +176,13 @@ echo "Instalation script completed " >> /tmp/instalation-script.txt
 #test website up
 echo "-----"
 curl -v http://localhost/test.html
-echo "-----"
+echo -e "\n-----"
 curl -v http://localhost/test.php
-echo "-----"
+echo 
+echo -e "\n-----"
 curl -v http://localhost/health-check.php
 
 echo ""
-echo "-----    Version: ${version}    -----"
-echo "-------------------------------------"
+echo "-----    Version 02.server-instalation-script-app.sh: ${version}    -----"
+echo ""
 exit
