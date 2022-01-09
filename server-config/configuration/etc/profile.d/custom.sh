@@ -10,4 +10,6 @@ export no_proxy=localhost,127.0.0.1
 #umask=022 #default
 umask 0027
 
+alias rsync_server="sudo /home/opc/bin/rsync_server.sh"
+
 # END
