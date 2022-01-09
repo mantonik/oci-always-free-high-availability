@@ -1,5 +1,7 @@
 #!/bin/bash 
-
+# 
+# 1/8/2022 add delete local repository before pulling from repo
+#
 #Script will sync from repository to local 
 export REPO=dev-2
 export REPODIR=${HOME}/repository/${REPO}
@@ -7,6 +9,7 @@ export https_proxy=http://10.10.1.11:3128;
 export http_proxy=http://10.10.1.11:3128;
 
 cd ${REPODIR}
+rm -rf * 
 wget https://github.com/mantonik/oci-always-free-high-availability/archive/refs/heads/${REPO}.zip
 rm -rf oci-always-free-high-availability-${REPO}
 unzip ${REPO}.zip

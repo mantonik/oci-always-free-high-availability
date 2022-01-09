@@ -127,9 +127,21 @@ chkconfig nginx on
 chkconfig sendmail on
 chkconfig php-fpm on
 
+#Update selinux configuration 
+#semanage port -l | grep http_port_t
+#chcon -v --type=httpd_sys_content_t /data/www
+#semanage fcontext -a -t httpd_sys_content_t /www/t.txt
+#restorecon -v /www/t.txt
+
+#Load policy
+# https://www.nginx.com/blog/using-nginx-plus-with-selinux/
+
+#SET enforcing for current session
+setenforce 1
+semodule -i nginx.pp
+
 # restart services
 /home/opc/bin/restart_services.sh now
-
 
 date
 date >> /tmp/instalation-script.txt
@@ -137,9 +149,9 @@ echo "Instalation script completed " >> /tmp/instalation-script.txt
 
 #test website up
 echo "-----"
-curl http://localhost/test.html
+curl -v http://localhost/test.html
 echo "-----"
-curl http://localhost/test.php
+curl -v http://localhost/test.php
 echo "-----"
-curl http://localhost/health-check.php
+curl -v http://localhost/health-check.php
 exit

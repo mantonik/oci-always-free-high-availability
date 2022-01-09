@@ -5,5 +5,6 @@ if you see it below then nginx and php are working correctly
 echo "";
 echo "Site is running on host:";
 echo gethostname(); // may output e.g,: sandie
+echo ""
 ?>
 ------------------------------------------------------------
