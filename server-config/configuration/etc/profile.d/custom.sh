@@ -17,6 +17,9 @@ umask 0027
 
 #Aliases
 alias rsync_server="sudo /home/opc/bin/rsync_server.sh"
+alias restart_services="sudo /home/opc/bin/restart_services.sh now"
+alias set_permissions="sudo /home/opc/bin/set_permissions.sh"
+alias update_root_cron="sudo /home/opc/bin/update_root_cron.sh"
 
 # END
 
