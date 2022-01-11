@@ -1,10 +1,17 @@
-to copy complete repository, and use process base on zip 
-#wget https://github.com/mantonik/oci-always-free-high-availability/archive/refs/heads/main.zip
+Script is desing to install application to run Nginx, PHP, MySQL server on set of 4 servers in OCI Cloud.
 
 Run below comands on respective servers as OPC user 
+SErver name has should be name like 
+
+somethingappX
+
+...app1
+...app2
+...app3
+...app4
 
 ##########
-APP1
+app1
 ##########
 
 export REPO=dev-2
@@ -21,9 +28,9 @@ ls -l
 
 sudo ./bin/01.install-server-4app-2db.sh
 
-#########
-APP 2,3,4
-#########
+###########################
+app2, app3, app4
+###########################
 
 export REPO=dev-2
 export REPODIR=${HOME}/repository/${REPO}
