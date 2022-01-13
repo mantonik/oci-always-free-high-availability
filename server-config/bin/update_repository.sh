@@ -29,7 +29,7 @@ sudo /home/opc/bin/rsync_server.sh
 
 echo "-----------------------"
 echo "Execute Rsync Server"
-sudo /home/opc/bin/restart_services.sh
+sudo /home/opc/bin/restart_services.sh now
 
 echo "---------------------------------------"
 echo "Version update_repository : ${version}"
