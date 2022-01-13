@@ -28,7 +28,7 @@ echo "Execute Rsync Server"
 sudo /home/opc/bin/rsync_server.sh
 
 echo "-----------------------"
-echo "Execute Rsync Server"
+echo "Execute Restart Server"
 sudo /home/opc/bin/restart_services.sh now
 
 echo "---------------------------------------"
