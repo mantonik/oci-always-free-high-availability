@@ -1,1 +1,1 @@
-/share 10.10.1.0/24(r,sync)
+/share 10.10.1.0/24(ro,sync)

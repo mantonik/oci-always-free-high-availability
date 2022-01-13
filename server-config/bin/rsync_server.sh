@@ -38,9 +38,11 @@ rsync -rltDv --no-owner /home/opc/configuration/ /
 #Check for required folders
 func_required_folders "/var/log/clamav"
 
-
 #set permissions
 /home/opc/bin/set_permissions.sh
+
+#Update export nfs setting
+exportfs -a
 
 echo "--- Completed ---"
 echo "----------------------"
