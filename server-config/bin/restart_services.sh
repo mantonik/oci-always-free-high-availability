@@ -6,7 +6,7 @@
 #
 # v 1.0 1/9/2022 Mariusz, initial version 
 # 1.1 - add oci agent restart
-#
+# 1.2 add nfs service
 #############################################################################################
 . /etc/profile
 version=1.1
@@ -31,6 +31,10 @@ echo "------------------"
 systemctl restart rsyslog
 systemctl restart sendmail
 systemctl restart sshd
+
+echo "Restart nfs mount "
+systemctl enable --now nfs-server
+
 
 echo "------------------"
 echo "Stop services"

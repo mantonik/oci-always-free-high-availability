@@ -140,7 +140,17 @@ echo "Pull latest clamav configuration"
 
 #Set NFS share 
 mkdir /share
+touch /share/$hostname.txt
+mkdir -p /mnt/share_app1
+mkdir -p /mnt/share_app2
+mkdir -p /mnt/share_app3
+mkdir -p /mnt/share_app4
+
 exportfs -a
+systemctl enable --now nfs-server
+showmount -e
+
+
 #set services to start automaticly
 echo "Set auto startup of applications"
 chkconfig nginx on
