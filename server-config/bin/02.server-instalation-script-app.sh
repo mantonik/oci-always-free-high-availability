@@ -140,7 +140,8 @@ echo "Pull latest clamav configuration"
 
 #Set NFS share 
 mkdir /share
-touch /share/$hostname.txt
+chmod 755 /share
+touch /share/$HOSTNAME.txt
 mkdir -p /mnt/share_app1
 mkdir -p /mnt/share_app2
 mkdir -p /mnt/share_app3

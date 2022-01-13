@@ -44,6 +44,9 @@ func_required_folders "/var/log/clamav"
 #Update export nfs setting
 exportfs -a
 
+#restart mount
+/etc/init.d/mount_share.sh
+
 echo "--- Completed ---"
 echo "----------------------"
 echo "Version: ${version}"
