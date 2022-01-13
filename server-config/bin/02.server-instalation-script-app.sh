@@ -14,6 +14,7 @@
 # 1/8/2022 Mariusz - add reference to scripts which will perform isntalation
 #   fix name of the sshd_config file
 # 1/9/2022 Add selinux handling
+# 1/12 - add share export and mount share from other servers.
 #
 ##################
 #Parameters 
@@ -87,7 +88,7 @@ fi
 
 echo "Install required packages"
 dnf install -y nginx php php-fpm php-mysqlnd php-json
-dnf install -y sendmail htop tmux mc rsync clamav clamav-update rclone setroubleshoot-server setools-console
+dnf install -y sendmail htop tmux mc rsync clamav clamav-update rclone setroubleshoot-server setools-console nfs-utils
 
 
 #Setup web folder structure
@@ -137,6 +138,9 @@ echo "Set root crontab"
 echo "Pull latest clamav configuration"
 /usr/bin/freshclam
 
+#Set NFS share 
+mkdir /share
+exportfs -a
 #set services to start automaticly
 echo "Set auto startup of applications"
 chkconfig nginx on
