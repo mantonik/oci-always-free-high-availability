@@ -1,9 +1,10 @@
 #!/bin/bash 
 #Script will set exepcted permissions on the file system
 #1.2 - fix echo command
+# 1.3 - add permission for /etc/init.d/
 ############################
 
-version=1.2
+version=1.3
 
 echo "Set required permissions";
 
@@ -24,6 +25,8 @@ chown root:root /etc/sudoers.d
 
 chmod 750 /var/log/clamav
 chown root:root /var/log/clamav
+
+chmod 750 /etc/init.d/*.sh
 
 echo "---------------------------"
 echo "Version: ${version}"
