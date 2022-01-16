@@ -15,6 +15,7 @@
 #   fix name of the sshd_config file
 # 1/9/2022 Add selinux handling
 # 1/12 - add share export and mount share from other servers.
+# 1/15 - add installing MySQL server
 #
 ##################
 #Parameters 
@@ -51,6 +52,8 @@ echo ${ROOTPASS} | passwd --stdin root
 #Add required directory
 mkdir /var/log/audit.d
 touch /var/log/audit.d/audit.log
+
+mkdir ~/log
 
 #delete proxy entry from dnf config file
 sed -i '/^proxy=http/d' /etc/dnf/dnf.conf
@@ -179,10 +182,18 @@ semodule -i /etc/selinux/my-phpfpm.pp
 setsebool httpd_can_network_connect on
 setsebool httpd_use_nfs on
 
+# Change partition size 
+# Decrease /var/oled and add to /root 6GB
 
 # restart services
 echo "Restart services"
 /home/opc/bin/restart_services.sh now
+
+#Install MySQL on app2 and app4
+if [ "$HOSTNAME" == *"app2"* ] || [ "$HOSTNAME" == *"app3"* ] ; then
+  ./03.server-instalation-mysql.sh
+fi
+
 
 date
 date >> /tmp/instalation-script.txt

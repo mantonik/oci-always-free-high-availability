@@ -25,17 +25,17 @@ unzip ${REPO}.zip
 cp -a oci-always-free-high-availability-${REPO}/server-config/* ${HOME}/
 cd ${HOME}
 ls -l
-
 sudo ./bin/01.install-server-4app-2db.sh
 
 ###########################
 app2, app3, app4
 ###########################
 
+IP_SUBNET=10.10.1
 export REPO=dev-2
 export REPODIR=${HOME}/repository/${REPO}
-export https_proxy=http://10.10.1.11:3128;
-export http_proxy=http://10.10.1.11:3128;
+export https_proxy=http://${IP_SUBNET}.11:3128;
+export http_proxy=http://${IP_SUBNET}.11:3128;
 . /etc/profile
 cd ${HOME}
 rm -rf * 
