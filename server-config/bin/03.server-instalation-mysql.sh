@@ -86,13 +86,16 @@ mysql -u repusr  -p${REPUSRMYQLP}  -h ${APP2_HOSTNAME} -e "show slave status\G;"
 }
 
 
-
+function mysql_set_root_password(){
+  echo "Set MySQL Root Passowrdś"
+}
 
 
 ##################
 # Main
 ##################
 
+ś
 #Install MySQL on app2 and app4
 if [ "$HOSTNAME" == *"app1"* ] || [ "$HOSTNAME" == *"app3"* ] ; then
   echo "This is not Desing to run on app1 or app3"
@@ -104,6 +107,11 @@ echo "Host app2 or app4 - install MySQL"
 dnf install -y mysql-server 
 #Update configuration of the server 
 echo "server-id="${HOSTNAME: -1} >> /etc/my.cnf.d/mysql-server.cnf
+echo "----"
+echo "mysql-server.cnf file"
+cat /etc/my.cnf.d/mysql-server.cnf
+
+echo "Start MySQLD"
 systemctl start mysqld
 
 #Installing on server 2
@@ -114,17 +122,19 @@ systemctl start mysqld
 # repusr:PASSWORD
 
 #Create random string for root and repusr
-
+echo "Create .private folder to store root password"
 mkdir ~/.private
 chmod 700 ~/.private
 
 #rm -f /share/.my.p
 
 #Run this only on app2 server
+echo "Exeucte on specific server"
 if [ "$HOSTNAME" == *"app2"* ]; then 
 
+  echo "Execute on app2 server"
 
-
+  echo "Generate root and repusr password"
   ROOTMYQLP=`tr -dc A-Za-z0-9 </dev/urandom | head -c 20`
   ROOTMYQLP="${ROOTMYQLP:1:8}1Yk"
   REPUSRMYQLP=`tr -dc A-Za-z0-9 </dev/urandom | head -c 20`
@@ -138,9 +148,11 @@ if [ "$HOSTNAME" == *"app2"* ]; then
   chmod 444 /share/.my.p
   cat /share/.my.p
 
+  echo "Execute create repusrś"
   mysql_create_repusr
 
 elif [ "$HOSTNAME" == *"app4"* ]; then 
+  echo "Exeucte on app4 server"
   #Create copy of the password file 
   cp /mnt/share_app2/.my.p ~/.private
   chmod 400 ~/.private/.my.p
@@ -160,7 +172,8 @@ elif [ "$HOSTNAME" == *"app4"* ]; then
  
 
   #Delete password file from share point
-
+else
+  echo "Error - script executed on wrong server, please delete MySQL from this server"
 fi
 
 
