@@ -1,5 +1,7 @@
 #!/bin/bash
 # #Script is executed as root user
+# 1/16/2022 - add more comments to script. script didn't executed on app2 server 
+#
 
 LOGFILE=/root/log/mysql.setup.log
 
