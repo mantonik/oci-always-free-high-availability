@@ -8,7 +8,7 @@
 # rm -rf /var/lib/mysql
 #########
 
-set -x 
+set +x 
 
 LOGFILE=/root/log/mysql.setup.log
 
