@@ -3,8 +3,9 @@
 # 1/16/2022 - add more comments to script. script didn't executed on app2 server 
 #   fix if condition
 #   remove server_id entry before adding new entry
-#
-#
+# #Remvoe MySQL server first if neede d
+# dnf remove mysql-server
+# rm -rf /var/lib/mysql
 #########
 
 set -x 
@@ -24,10 +25,11 @@ function mysql_create_repusr() {
   MASTER_STATUS_FILE=/share/mysql_${HOSTNAME: -4}_master_status.txt
   mysql -u root -e "show master status;" > ${MASTER_STATUS_FILE}
   sed -e 's/\t/ /g' -i ${MASTER_STATUS_FILE}
-  chmod 644 ${MASTER_STATUS_FILE}
+  chmod 666 ${MASTER_STATUS_FILE}
 
-
+  echo "Finish - mysql_create_repusr"
 }
+
 
 
 function mysql_set_replication (){
@@ -85,18 +87,25 @@ show slave status\G;
 sleep 5
 mysql -u repusr  -p${REPUSRMYQLP}  -h ${APP2_HOSTNAME} -e "show slave status\G;"
 
+echo "Finish - function mysql_set_replication"
+echo "------------"
+}
 
-#set replication on the app2 server 
+function update_mysql_root_password() {
+  echo "Update MySQL Root Passowrd"
+  
+  export ROOTMYQL=`cat /mnt/share_app2/.my.p|grep root`
+  export ROOTMYQLP=${ROOTMYQL:5}
+  echo "ROOTMYQLP: "${ROOTMYQLP}
 
-
-
-
+  mysql -u root -v -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${ROOTMYQLP}';"
+  echo "Display databases"
+  mysql -u root -v -p${ROOTMYQLP} -e "show databases;"
+  echo "MySQL root passwrod updated"
+  echo "Finish - update_mysql_root_password"
 }
 
 
-function mysql_set_root_password(){
-  echo "Set MySQL Root Passowrdś"
-}
 
 
 ##################
@@ -145,16 +154,16 @@ if [[ "$HOSTNAME" == *"app2"* ]]; then
 
   echo "Generate root and repusr password"
   ROOTMYQLP=`tr -dc A-Za-z0-9 </dev/urandom | head -c 20`
-  ROOTMYQLP="${ROOTMYQLP:1:8}1Yk"
+  export ROOTMYQLP="${ROOTMYQLP:1:8}1Yk"
   REPUSRMYQLP=`tr -dc A-Za-z0-9 </dev/urandom | head -c 20`
-  REPUSRMYQLP="${REPUSRMYQLP:6:8}4hD"
+  export REPUSRMYQLP="${REPUSRMYQLP:6:8}4hD"
 
   echo "root:${ROOTMYQLP}" > ~/.private/.my.p
   echo "repusr:${REPUSRMYQLP}" >> ~/.private/.my.p
   chmod 400 ~/.private/.my.p
 
   cp ~/.private/.my.p /share
-  chmod 444 /share/.my.p
+  chmod 666 /share/.my.p
   cat /share/.my.p
 
   echo "Execute create repusr"
@@ -171,6 +180,7 @@ elif [[ "$HOSTNAME" == *"app4"* ]]; then
   export REPUSRMYQLP=${REPUSRMYQL:7}
   echo "REPUSRMYQL: "${REPUSRMYQL}
   echo "REPUSRMYQLP: "${REPUSRMYQLP}
+  
 
   #Craete replication user
   mysql_create_repusr
@@ -178,12 +188,20 @@ elif [[ "$HOSTNAME" == *"app4"* ]]; then
   #Set replication on app4
   mysql_set_replication
 
- 
+  #Set root password
 
-  #Delete password file from share point
+
+  #set login path
+
+
 else
   echo "Error - script executed on wrong server, please delete MySQL from this server"
 fi
+
+#Update root passwrod for MySQL instance
+echo "Update root passwrod for MySQL instance"
+update_mysql_root_password
+
 
 
 #   mysql -u root -e "select user,host from mysql.user;"
