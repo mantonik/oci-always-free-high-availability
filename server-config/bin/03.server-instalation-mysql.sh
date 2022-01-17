@@ -102,9 +102,25 @@ function update_mysql_root_password() {
   echo "Display databases"
   mysql -u root -v -p${ROOTMYQLP} -e "show databases;"
   echo "MySQL root passwrod updated"
+
+  #set login path
+  set_root_login_path
+
   echo "Finish - update_mysql_root_password"
 }
 
+
+function set_root_login_path() {
+
+  echo "Set Root login-path"
+  echo "Type root passwrod below: "${ROOTMYQLP}
+  mysql_config_editor set --login-path=r3306 -u root -p --socket=/var/lib/mysql/mysql.sock
+
+  echo "Validate login path"
+  mysql --login-path=r3306 -e "show databases;"
+  
+  echo "Finish - set_root_login_path"
+}
 
 
 
@@ -169,6 +185,14 @@ if [[ "$HOSTNAME" == *"app2"* ]]; then
   echo "Execute create repusr"
   mysql_create_repusr
 
+
+
+  #Update root passwrod for MySQL instance
+  echo "Update root passwrod for MySQL instance"
+  update_mysql_root_password
+
+
+
 elif [[ "$HOSTNAME" == *"app4"* ]]; then 
   echo "Exeucte on app4 server"
   #Create copy of the password file 
@@ -188,19 +212,13 @@ elif [[ "$HOSTNAME" == *"app4"* ]]; then
   #Set replication on app4
   mysql_set_replication
 
-  #Set root password
-
-
-  #set login path
-
+  #Set root login-path
+  #Once replication start root user password should be replicated from app2 as it was set after repuser account
+  set_root_login_path
 
 else
   echo "Error - script executed on wrong server, please delete MySQL from this server"
 fi
-
-#Update root passwrod for MySQL instance
-echo "Update root passwrod for MySQL instance"
-update_mysql_root_password
 
 
 

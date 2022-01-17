@@ -26,11 +26,11 @@ ls -l
 
 echo "-----------------------"
 echo "Execute Rsync Server"
-#sudo /home/opc/bin/rsync_server.sh
+sudo /home/opc/bin/rsync_server.sh
 
 echo "-----------------------"
 echo "Execute Restart Server"
-#sudo /home/opc/bin/restart_services.sh now
+sudo /home/opc/bin/restart_services.sh now
 
 echo "---------------------------------------"
 echo "Version update_repository : ${version}"
