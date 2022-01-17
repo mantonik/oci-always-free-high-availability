@@ -2,6 +2,12 @@
 # #Script is executed as root user
 # 1/16/2022 - add more comments to script. script didn't executed on app2 server 
 #   fix if condition
+#   remove server_id entry before adding new entry
+#
+#
+#########
+
+set -x 
 
 LOGFILE=/root/log/mysql.setup.log
 
@@ -108,6 +114,7 @@ fi
 echo "Host app2 or app4 - install MySQL"
 dnf install -y mysql-server 
 #Update configuration of the server 
+sed -i '/^server-id=/d' /etc/my.cnf.d/mysql-server.cnf
 echo "server-id="${HOSTNAME: -1} >> /etc/my.cnf.d/mysql-server.cnf
 echo "----"
 echo "mysql-server.cnf file"
@@ -150,7 +157,7 @@ if [[ "$HOSTNAME" == *"app2"* ]]; then
   chmod 444 /share/.my.p
   cat /share/.my.p
 
-  echo "Execute create repusrś"
+  echo "Execute create repusr"
   mysql_create_repusr
 
 elif [[ "$HOSTNAME" == *"app4"* ]]; then 
