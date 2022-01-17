@@ -4,8 +4,9 @@
 # v 1.2 delete full repository folder before uploading new files
 # v 1.3 rsync_server
 # v 1.6 add restart services
+# 1.7 - enable rsync and restart
 #Script will sync from repository to local 
-version=1.6
+version=1.7
 
 export REPO=dev-2
 export REPODIR=${HOME}/repository/${REPO}
