@@ -1,7 +1,7 @@
 #!/bin/bash
 # #Script is executed as root user
 # 1/16/2022 - add more comments to script. script didn't executed on app2 server 
-#
+#   fix if condition
 
 LOGFILE=/root/log/mysql.setup.log
 
@@ -132,7 +132,7 @@ chmod 700 ~/.private
 
 #Run this only on app2 server
 echo "Exeucte on specific server"
-if [ "$HOSTNAME" == *"app2"* ]; then 
+if [[ "$HOSTNAME" == *"app2"* ]]; then 
 
   echo "Execute on app2 server"
 
@@ -153,7 +153,7 @@ if [ "$HOSTNAME" == *"app2"* ]; then
   echo "Execute create repusrś"
   mysql_create_repusr
 
-elif [ "$HOSTNAME" == *"app4"* ]; then 
+elif [[ "$HOSTNAME" == *"app4"* ]]; then 
   echo "Exeucte on app4 server"
   #Create copy of the password file 
   cp /mnt/share_app2/.my.p ~/.private
