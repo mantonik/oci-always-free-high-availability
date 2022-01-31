@@ -66,7 +66,7 @@ fi
 CONF_FILE=/etc/nginx/conf.d/${DOMAIN_NAME}.conf
 cp /etc/nginx/conf.d/0.sample.conf.txt ${CONF_FILE}
 
-sed -i "s/DOMAIN-NAME/${DOMAIN_NAME}/g" ${CONF_FILE}
+sed -i "s|DOMAIN-NAME|${DOMAIN_NAME}|g" ${CONF_FILE}
 sed -i "s|ROOT-DIR-PATH|${ROOT_DIR}|g" ${CONF_FILE}
 
 mkdir -p ${ROOT_DIR}
@@ -74,10 +74,10 @@ echo "${DOMAIN}" > ${ROOT_DIR}/index.html
 
 /home/opc/bin/set_permissions.sh
 #restart nginx
-#systemctl restart nginx
+systemctl restart nginx
 
 #sync configuration to remaining server 
-#rsync_server.sh
+rsync_server.sh
 
 echo "Completed"
 exit
