@@ -18,7 +18,7 @@ IFS='.'
 #Read the split words into an array based on space delimiter
 read -a DOMAIN_NAME_ARRAY <<< "${DOMAIN_NAME}"
 
-
+IFS='|'
 #Count the total words
 echo "There are ${#DOMAIN_NAME_ARRAY[*]} words in the text."
 #last two words use as domain 
@@ -31,13 +31,13 @@ for val in "${DOMAIN_NAME_ARRAY[@]}";
 do
   printf "$val\n"
   if [ ${i} -eq 4 ]; then 
-    SUBDOMAIN=${val}"."
+    SUBDOMAIN=${val}
   elif [ ${i} -eq 3 ]; then 
-    SUBDOMAIN=${SUBDOMAIN}${val}
+    SUBDOMAIN="${SUBDOMAIN}.${val}"
   elif [ ${i} -eq 2 ]; then 
     DOMAIN=${val}
   elif [ ${i} -eq 1 ]; then
-    DOMAIN=${DOMAIN}"."${val}
+    DOMAIN="${DOMAIN}.${val}"
   fi
 
   
