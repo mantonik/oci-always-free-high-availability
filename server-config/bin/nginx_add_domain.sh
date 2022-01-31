@@ -31,9 +31,9 @@ for val in "${DOMAIN_NAME_ARRAY[@]}";
 do
   printf "$val\n"
   if [ ${i} -eq 4 ]; then 
-    SUBDOMAIN=${val}
+    SUBDOMAIN=${val}"."
   elif [ ${i} -eq 3 ]; then 
-    SUBDOMAIN="${SUBDOMAIN}.${val}"
+    SUBDOMAIN="${SUBDOMAIN}${val}"
   elif [ ${i} -eq 2 ]; then 
     DOMAIN=${val}
   elif [ ${i} -eq 1 ]; then
