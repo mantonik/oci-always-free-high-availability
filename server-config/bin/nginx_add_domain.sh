@@ -35,17 +35,18 @@ do
   elif [ ${i} -eq 3 ]; then 
     SUBDOMAIN=${SUBDOMAIN}${val}
   elif [ ${i} -eq 2 ]; then 
-    DOMAIN=${val}"."
+    DOMAIN=${val}
   elif [ ${i} -eq 1 ]; then
-    DOMAIN=${DOMAIN}${val}
+    DOMAIN=${DOMAIN}"."${val}
   fi
 
-  i=`expr ${i} - 1`
+  
 
   echo "Subdoman: " ${SUBDOMAIN}
   echo "Domain:   " ${DOMAIN}
   echo "i: " ${i}
   echo "-----"
+  i=`expr ${i} - 1`
 done
 
 
