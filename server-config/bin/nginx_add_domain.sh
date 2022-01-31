@@ -1,13 +1,13 @@
 #!/bin/bash
 #Script will create basic configuration file for nginx webserver for provided domain name 
-
-if [ $1"x" == "x" ]; then 
+DOMAIN_NAME=$1
+if [ ${DOMAIN_NAME}"x" == "x" ]; then 
   echo "Enter as parameter a domain name"
   exit
 fi
 
 #Check if this is domain or subdomain 
-num = `expr match $var [.]`
+num = `expr match ${DOMAIN_NAME} [.]`
 echo "Numbers of the \".\": $num"
 
 
@@ -16,14 +16,14 @@ echo "Numbers of the \".\": $num"
 IFS='.'
 
 #Count the total words
-echo "There are ${#strarr[*]} words in the text."
+echo "There are ${#DOMAIN_NAME[*]} words in the text."
 #last two words use as domain 
 #remaining use as a subdomains
-i=${#strarr[*]}
+i=${#DOMAIN_NAME[*]}
 SUBDOMAIN=""
 DOMAIN=""
 
-for val in "${strarr[@]}";
+for val in "${DOMAIN_NAME[@]}";
 do
   printf "$val\n"
   if [ ${i} -eq 4 ]; then 
@@ -54,10 +54,10 @@ echo "Domain:   " ${DOMAIN}
 #Create configuration file for nginx for this domain
 
 #restart nginx
-systemctl restart nginx
+#systemctl restart nginx
 
 #sync configuration to remaining server 
-rsync_server.sh
+#rsync_server.sh
 
 echo "Completed"
 exit
