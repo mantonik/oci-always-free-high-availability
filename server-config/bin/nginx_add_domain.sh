@@ -26,7 +26,7 @@ echo "There are ${#DOMAIN_NAME_ARRAY[*]} words in the text."
 i=${#DOMAIN_NAME_ARRAY[*]}
 SUBDOMAIN=""
 DOMAIN=""
-
+ 
 for val in "${DOMAIN_NAME_ARRAY[@]}";
 do
   printf "$val\n"
