@@ -92,7 +92,7 @@ fi
 echo "Install required packages"
 dnf install -y nginx php php-fpm php-mysqlnd php-json
 dnf install -y sendmail htop tmux mc rsync clamav clamav-update rclone setroubleshoot-server setools-console nfs-utils
-
+#dnf install -y snapd
 
 #Setup web folder structure
 mkdir -p /data/www/default/htdocs
@@ -193,6 +193,35 @@ echo "Restart services"
 if [ "$HOSTNAME" == *"app2"* ] || [ "$HOSTNAME" == *"app3"* ] ; then
   ./03.server-instalation-mysql.sh
 fi
+
+if [[ "$HOSTNAME" == *"app1"* ]] ; then
+  # Install oci tools as root 
+  bash -c "$(curl -L https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh)"
+
+
+  #Ceate rsa key for oci
+  mkdir ~/.oci
+  cd ~/.oci
+  #openssl genrsa -out ~/.oci/oci_api_key.pem -aes128 2048   
+  #no passphrase 
+  openssl genrsa -out ~/.oci/oci_api_key.pem 2048   
+  chmod go-rwx ~/.oci/oci_api_key.pem  
+  openssl rsa -pubout -in ~/.oci/oci_api_key.pem -out ~/.oci/oci_api_key_public.pem 
+
+  #Install Certboot
+  #ln -s /var/lib/snapd/snap /snap 
+  #sudo snap install core
+  #sudo snap refresh core
+  #snap install --classic certbot
+  #ln -s /snap/bin/certbot /usr/bin/certbot
+  #snap set certbot trust-plugin-with-root=ok
+  python -m ensurepip --upgrade
+  get-pip.py
+  pip3 install certbot
+
+
+fi
+
 
 
 date

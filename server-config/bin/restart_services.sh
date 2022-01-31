@@ -31,6 +31,7 @@ echo "------------------"
 systemctl restart rsyslog
 systemctl restart sendmail
 systemctl restart sshd
+systemctl restart snapd 
 
 echo "Restart nfs mount "
 systemctl enable --now nfs-server

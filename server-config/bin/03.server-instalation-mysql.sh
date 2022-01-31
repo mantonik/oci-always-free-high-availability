@@ -113,6 +113,8 @@ function update_mysql_root_password() {
 function set_root_login_path() {
 
   echo "Set Root login-path"
+  export ROOTMYQL=`cat /mnt/share_app2/.my.p|grep root`
+  export ROOTMYQLP=${ROOTMYQL:5}
   echo "Type root passwrod below: "${ROOTMYQLP}
   mysql_config_editor set --login-path=r3306 -u root -p --socket=/var/lib/mysql/mysql.sock
 
