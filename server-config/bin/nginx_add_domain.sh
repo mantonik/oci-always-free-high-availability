@@ -15,15 +15,19 @@ echo "Numbers of the \".\": $num"
 # Set space as the delimiter
 IFS='.'
 
+#Read the split words into an array based on space delimiter
+read -a DOMAIN_NAME_ARRAY <<< "${DOMAIN_NAME}"
+
+
 #Count the total words
-echo "There are ${#DOMAIN_NAME[*]} words in the text."
+echo "There are ${#DOMAIN_NAME_ARRAY[*]} words in the text."
 #last two words use as domain 
 #remaining use as a subdomains
-i=${#DOMAIN_NAME[*]}
+i=${#DOMAIN_NAME_ARRAY[*]}
 SUBDOMAIN=""
 DOMAIN=""
 
-for val in "${DOMAIN_NAME[@]}";
+for val in "${DOMAIN_NAME_ARRAY[@]}";
 do
   printf "$val\n"
   if [ ${i} -eq 4 ]; then 
