@@ -49,7 +49,7 @@ do
   i=`expr ${i} - 1`
 done
 
-set -x 
+set +x 
 
 echo "Subdoman: " ${SUBDOMAIN}
 echo "Domain:   " ${DOMAIN}
