@@ -40,7 +40,7 @@ do
     DOMAIN=${DOMAIN}${val}
   fi
 
-  i=expr ${i} - 1
+  i=`expr ${i} - 1`
 
   echo "Subdoman: " ${SUBDOMAIN}
   echo "Domain:   " ${DOMAIN}
