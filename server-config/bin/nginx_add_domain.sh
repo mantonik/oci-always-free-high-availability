@@ -56,11 +56,11 @@ echo "Domain:   " ${DOMAIN}
 #Define ROOT-DIR-PATH
 #DOMAIN-NAME
 
-if [ ${SUBDOMAIN}"x" != "x " ]; then 
+if [ ${SUBDOMAIN}"x" != "x" ]; then 
   ROOT_DIR=/data/www/subdomain/${DOMAIN}/${SUBDOMAIN}/htdocs
 else
   ROOT_DIR="/data/www/domain/${DOMAIN}/htdocs"
-
+fi
 #copy sample file to confg file 
 CONF_FILE=/etc/nginx/conf.d/${DOMAIN_NAME}.conf
 cp /etc/nginx/conf.d/0.sample.conf.txt ${CONF_FILE}
