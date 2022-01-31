@@ -49,6 +49,7 @@ do
   i=`expr ${i} - 1`
 done
 
+set -x 
 
 echo "Subdoman: " ${SUBDOMAIN}
 echo "Domain:   " ${DOMAIN}
@@ -64,6 +65,7 @@ fi
 #copy sample file to confg file 
 CONF_FILE=/etc/nginx/conf.d/${DOMAIN_NAME}.conf
 cp /etc/nginx/conf.d/0.sample.conf.txt ${CONF_FILE}
+
 sed -i "s/DOMAIN-NAME/${DOMAIN_NAME}/g" ${CONF_FILE}
 sed -i "s/ROOT-DIR-PATH/${ROOT_DIR}/g" ${CONF_FILE}
 
