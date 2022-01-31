@@ -36,9 +36,11 @@ do
     DOMAIN=${DOMAIN}${val}
   fi
 
-  i--
+  i=${i}-1
+
   echo "Subdoman: " ${SUBDOMAIN}
   echo "Domain:   " ${DOMAIN}
+  echo "i: " ${i}
   echo "-----"
 done
 
