@@ -42,10 +42,10 @@ do
 
   
 
-  echo "Subdoman: " ${SUBDOMAIN}
-  echo "Domain:   " ${DOMAIN}
-  echo "i: " ${i}
-  echo "-----"
+  #echo "Subdoman: " ${SUBDOMAIN}
+  #echo "Domain:   " ${DOMAIN}
+  #echo "i: " ${i}
+  #echo "-----"
   i=`expr ${i} - 1`
 done
 
@@ -54,11 +54,23 @@ echo "Subdoman: " ${SUBDOMAIN}
 echo "Domain:   " ${DOMAIN}
 
 #Define ROOT-DIR-PATH
-# DOMAIN-NAME
-# replace those values in sample file 0.sample.conf in nginx.conf.d folder and wrinte it to final file
+#DOMAIN-NAME
 
-#Create configuration file for nginx for this domain
+if [ ${SUBDOMAIN}"x" != "x " ]; then 
+  ROOT_DIR=/data/www/subdomain/${DOMAIN}/${SUBDOMAIN}/htdocs
+else
+  ROOT_DIR="/data/www/domain/${DOMAIN}/htdocs"
 
+#copy sample file to confg file 
+CONF_FILE=/etc/nginx/conf.d/${DOMAIN_NAME}.conf
+cp /etc/nginx/conf.d/0.sample.conf.txt ${CONF_FILE}
+sed -i "s/DOMAIN-NAME/${DOMAIN_NAME}/g" ${CONF_FILE}
+sed -i "s/ROOT-DIR-PATH/${ROOT_DIR}/g" ${CONF_FILE}
+
+mkdir -p ${ROOT_DIR}
+echo "${DOMAIN}" > ${ROOT_DIR}/index.html
+
+/home/opc/bin/set_permissions.sh
 #restart nginx
 #systemctl restart nginx
 
