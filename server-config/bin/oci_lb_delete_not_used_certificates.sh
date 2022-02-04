@@ -19,7 +19,8 @@ do
   oci lb certificate delete --load-balancer-id ${LB_OCIID} --certificate-name ${CERT} --force
   sleep 5
 done
-
+echo "Wait 10s for delete process to complete"
+sleep 10
 echo ""
 echo "List of available certificates in LB"
 oci lb certificate list --load-balancer-id ${LB_OCIID}|grep  certificate-name
