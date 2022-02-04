@@ -12,4 +12,13 @@ oci lb certificate list --load-balancer-id ${LB_OCIID}|grep  certificate-name |g
 while read CERT
 do
   echo "Delete certificat: " ${CERT}
+  oci lb certificate delete --load-balancer-id ${LB_OCIID} --certificate-name ${CERT}
+  sleep 5
 done
+
+echo ""
+echo "List of available certificates in LB"
+oci lb certificate list --load-balancer-id ${LB_OCIID}|grep  certificate-name
+
+echo ""
+exit
