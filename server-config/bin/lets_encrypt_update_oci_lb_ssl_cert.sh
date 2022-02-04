@@ -10,6 +10,7 @@
 # 2/3/2022 - create script
 # - fix while loop
 # - fix x variable
+# - add call to delete SSL cert script
 #######
 
 #export LB_OCIID="ocid1.loadbalancer.oc1.iad.aaaaaaaavl7ihlzsqcun4ojqj2nqk63siudt3c5aodazvhstb3v4cy46xtya"
@@ -80,4 +81,8 @@ do
   x=$((x + 1))
 done
 echo ""
+
+#Delete not used SSL certificates
+oci_lb_delete_not_used_certificates.sh
+
 exit
