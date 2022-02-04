@@ -41,7 +41,7 @@ nr=0
 while [ ${x} -lt 100 ]
 do
   
-  sleep 10
+  sleep 5
   #Check if certificate was added
   nr=`oci lb certificate list --load-balancer-id ${LB_OCIID}|grep  certificate-name|grep ${DOMAIN}.${CERT_DT}| wc -l `
   if [ ${nr} -gt 0 ]; then 
@@ -51,6 +51,7 @@ do
   x=$((x + 1))
 done
 
+echo ""
 echo "Update LB with latest certificate"
 oci lb listener update \
 --default-backend-set-name bk-http \
@@ -67,7 +68,7 @@ x=0
 nr=0
 while [ ${x} -lt 100 ]
 do
-  sleep 10
+  sleep 5
   #Check if certificate was added
   nr=`oci lb load-balancer get --load-balancer-id ${LB_OCIID}| jq -r '.data.listeners' |grep  certificate-name|grep ${DOMAIN}.${CERT_DT}| wc -l`
   if [ ${nr} -gt 0 ]; then 
@@ -78,5 +79,5 @@ do
   #x=`exp $x + 1`
   x=$((x + 1))
 done
-
+echo ""
 exit
