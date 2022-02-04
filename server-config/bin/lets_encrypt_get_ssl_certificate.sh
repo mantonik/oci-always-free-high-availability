@@ -6,9 +6,16 @@ echo "Enter your domain name to create let's encrypt certificagte: "
 read DOMAIN
 echo "Eneter your email address for let's encrypt account registration"
 read EMAIL
-echo "Eneter OCI of the LB"
+echo "Eneter OCI ID of the Load Balancer"
 read LB_OCIID
 
+if [ ! -e /root/etc ]; then 
+  mkdir /root/etc
+fi 
+
+#Update configuration file 
+
+echo "LB_OCIID:"${LB_OCIID} >> /root/etc/oci_network.cfg
 
 #rm /etc/letsencrypt/
 
@@ -17,7 +24,7 @@ read LB_OCIID
 /usr/local/bin/certbot register -m ${EMAIL}  --agree-tos
 
 #Create a certificat in default domain
-/usr/local/bin/certbot certonly --webroot -w /data/www/default/htdocs -d ocidemo.ddns.net
+/usr/local/bin/certbot certonly --webroot -w /data/www/default/htdocs -d ${DOMAIN}
 
 #Check if certificate was created succesfully
 if [ ! -e /etc/letsencrypt/live/${DOMAIN} ]; then 
@@ -26,30 +33,7 @@ if [ ! -e /etc/letsencrypt/live/${DOMAIN} ]; then
   exit
 fi
 
-#export LB_OCIID="ocid1.loadbalancer.oc1.iad.aaaaaaaavl7ihlzsqcun4ojqj2nqk63siudt3c5aodazvhstb3v4cy46xtya"
-export CERT_DT=`date +%Y%m%d%H%M`
-
-cd /etc/letsencrypt/live/ocidemo.ddns.net
-oci lb certificate create --certificate-name ocidemo.ddns.net.${CERT_DT} \
---load-balancer-id  ${LB_OCIID} \
---ca-certificate-file cert.pem  \
---private-key-file privkey.pem  \
---public-certificate-file fullchain.pem
-
-#Update LB listener to use new certificate 
-echo "Wait 120s before next step. it will take some time to add certificate to LB configuration"
-sleep 120 # it takes minute or two for create certificate - may need also a query to list current available certificates
-echo "Update LB with latest certificate"
-oci lb listener update \
---default-backend-set-name bk-http \
---port 443 \
---protocol HTTP \
---load-balancer-id ${LB_OCIID} \
---listener-name LS-https \
---ssl-certificate-name ocidemo.ddns.net.${CERT_DT} \
---routing-policy-name RP_LS_HTTPS \
---force
-
+lets_encrypts_update_oci_lb_ssl_cert.sh ${DOMAIN}
 
 echo "Exit"
 exit
