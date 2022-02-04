@@ -8,6 +8,7 @@
 ##########
 ## Version 
 # 2/3/2022 - create script
+# - fix while loop
 #######
 
 #export LB_OCIID="ocid1.loadbalancer.oc1.iad.aaaaaaaavl7ihlzsqcun4ojqj2nqk63siudt3c5aodazvhstb3v4cy46xtya"
@@ -36,7 +37,7 @@ oci lb certificate create --certificate-name  ${DOMAIN}.${CERT_DT} \
 echo "Wait for certificate file to be added"
 x=0
 nr=0
-while x -lt 100
+while [ x -lt 100 ]
 do
   
   sleep 10
@@ -63,7 +64,7 @@ oci lb listener update \
 echo "Wait for certificate file to be active"
 x=0
 nr=0
-while x -lt 100
+while [ x -lt 100 ]
 do
   sleep 10
   #Check if certificate was added
