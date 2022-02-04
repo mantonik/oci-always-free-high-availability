@@ -1,6 +1,10 @@
 
 #!/bin/bash 
 # Script will delete all not used SSL certificates.
+#
+# 2/3/2022 createa script 
+#
+#
 
 LB_OCIID=`cat /root/etc/oci_network.cfg|grep LB_OCIID:|sed 's/^.\{9\}//g' `
 #Get active SSL certificate 
@@ -12,7 +16,7 @@ oci lb certificate list --load-balancer-id ${LB_OCIID}|grep  certificate-name |g
 while read CERT
 do
   echo "Delete certificat: " ${CERT}
-  oci lb certificate delete --load-balancer-id ${LB_OCIID} --certificate-name ${CERT}
+  oci lb certificate delete --load-balancer-id ${LB_OCIID} --certificate-name ${CERT} --force
   sleep 5
 done
 
