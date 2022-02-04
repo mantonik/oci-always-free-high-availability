@@ -9,7 +9,7 @@ ACTIVE_CERT=`oci lb load-balancer get --load-balancer-id ${LB_OCIID}| jq -r '.da
 
 #list of all SSL certificates
 oci lb certificate list --load-balancer-id ${LB_OCIID}|grep  certificate-name |grep -v ${ACTIVE_CERT}|cut -d: -f2|tr -s " "|sed 's/,//g'|sed 's/"//g'|sed 's/ //g'|
-where read CERT
+while read CERT
 do
   echo "Delete certificat: " ${CERT}
 done
