@@ -36,7 +36,7 @@ oci lb certificate create --certificate-name  ${DOMAIN}.${CERT_DT} \
 echo "Wait for certificate file to be added"
 x=0
 nr=0
-while x<100
+while x -lt 100
 do
   
   sleep 10
@@ -63,7 +63,7 @@ oci lb listener update \
 echo "Wait for certificate file to be active"
 x=0
 nr=0
-while x<100
+while x -lt 100
 do
   sleep 10
   #Check if certificate was added
