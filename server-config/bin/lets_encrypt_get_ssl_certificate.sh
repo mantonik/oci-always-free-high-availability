@@ -24,6 +24,7 @@ echo "LB_OCIID:"${LB_OCIID} >> /root/etc/oci_network.cfg
 /usr/local/bin/certbot register -m ${EMAIL}  --agree-tos
 
 #Create a certificat in default domain
+#Get webroot directory for domain from nginx config file
 /usr/local/bin/certbot certonly --webroot -w /data/www/default/htdocs -d ${DOMAIN}
 
 #Check if certificate was created succesfully

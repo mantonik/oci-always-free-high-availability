@@ -16,7 +16,8 @@
 # 1/9/2022 Add selinux handling
 # 1/12 - add share export and mount share from other servers.
 # 1/15 - add installing MySQL server
-#
+# 2/5 - update oci cli installer to run without interaction
+#       add rsa key generation, sharing and copy on ap2,3,4 to authrorized keys
 ##################
 #Parameters 
 ##################
@@ -195,8 +196,18 @@ if [ "$HOSTNAME" == *"app2"* ] || [ "$HOSTNAME" == *"app3"* ] ; then
 fi
 
 if [[ "$HOSTNAME" == *"app1"* ]] ; then
-  # Install oci tools as root 
-  bash -c "$(curl -L https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh)"
+  # Install oci tools as root
+  echo "----" 
+  echo "Install OCI tools"
+  mkdir /root/install
+  cd /root/install
+  wget https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh
+  mv install.sh oci_install.sh
+  chmod 700 oci_install.sh
+  ./oci_install.sh --accept-all-defaults
+  rm -f ./oci_install.sh
+  
+  #bash -c "$(curl -L https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh) --accept-all-defaults"
 
 
   #Ceate rsa key for oci
@@ -215,11 +226,24 @@ if [[ "$HOSTNAME" == *"app1"* ]] ; then
   #snap install --classic certbot
   #ln -s /snap/bin/certbot /usr/bin/certbot
   #snap set certbot trust-plugin-with-root=ok
+  echo "-----"
+  echo "Install Certboot"
   python -m ensurepip --upgrade
   get-pip.py
   pip3 install certbot
 
+  #Create a root rsa key 
+  ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa  -q -N ""
+  cp ~/.ssh/id_rsa.pub /share/root_app1_id_rsa.pub
 
+else
+  #Execute on app 2,3,4
+  #Update authorized_keys 
+  if [ ! -e ~/.ssh ]; then 
+    mkdir ~/.ssh
+    chmod 700 ~/.ssh
+  fi
+  cat /mnt/share_app1/root_app1_id_rsa.pub > ~/.ssh/authorized_keys
 fi
 
 
