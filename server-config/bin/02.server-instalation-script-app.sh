@@ -18,6 +18,8 @@
 # 1/15 - add installing MySQL server
 # 2/5 - update oci cli installer to run without interaction
 #       add rsa key generation, sharing and copy on ap2,3,4 to authrorized keys
+# 2/5/22 udpate mysql instalation script path to full path, set to run at app2 and app4
+#
 ##################
 #Parameters 
 ##################
@@ -191,8 +193,8 @@ echo "Restart services"
 /home/opc/bin/restart_services.sh now
 
 #Install MySQL on app2 and app4
-if [ "$HOSTNAME" == *"app2"* ] || [ "$HOSTNAME" == *"app3"* ] ; then
-  ./03.server-instalation-mysql.sh
+if [ "$HOSTNAME" == *"app2"* ] || [ "$HOSTNAME" == *"app4"* ] ; then
+  /home/opc/bin/03.server-instalation-mysql.sh
 fi
 
 if [[ "$HOSTNAME" == *"app1"* ]] ; then
@@ -264,5 +266,6 @@ curl -v http://localhost/health-check.php
 echo ""
 echo "-----    Version 02.server-instalation-script-app.sh: ${version}    -----"
 echo ""
+
 exit
 

@@ -130,13 +130,24 @@ function set_root_login_path() {
 # Main
 ##################
 
-ś
+
 #Install MySQL on app2 and app4
 if [ "$HOSTNAME" == *"app1"* ] || [ "$HOSTNAME" == *"app3"* ] ; then
   echo "This is not Desing to run on app1 or app3"
   echo "Please run this script on app2 and app4 for MySQL instance"
   exit
 fi
+
+#mount share drive 
+if [ "$HOSTNAME" == *"app2"* ]  ; then
+  echo "mount app2 share"
+  mount -t nfs 10.10.1.12:/share /mnt/share_app2
+fi
+
+if [ "$HOSTNAME" == *"app4"* ] ; then
+  mount -t nfs 10.10.1.14:/share /mnt/share_app4
+fi
+
 
 echo "Host app2 or app4 - install MySQL"
 dnf install -y mysql-server 
