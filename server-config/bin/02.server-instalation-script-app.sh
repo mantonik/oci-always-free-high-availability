@@ -19,6 +19,8 @@
 # 2/5 - update oci cli installer to run without interaction
 #       add rsa key generation, sharing and copy on ap2,3,4 to authrorized keys
 # 2/5/22 udpate mysql instalation script path to full path, set to run at app2 and app4
+# 2/13 - add change permission to root/ id_rsa files 
+#
 #
 ##################
 #Parameters 
@@ -153,6 +155,10 @@ mkdir -p /mnt/share_app2
 mkdir -p /mnt/share_app3
 mkdir -p /mnt/share_app4
 
+#Create clamav log foler 
+mkdir /share/log/clamav
+chown clamav /share/log/clamav
+
 exportfs -a
 systemctl enable --now nfs-server
 showmount -e
@@ -235,9 +241,9 @@ if [[ "$HOSTNAME" == *"app1"* ]] ; then
   pip3 install certbot
 
   #Create a root rsa key 
-  ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa  -q -N ""
-  cp ~/.ssh/id_rsa.pub /share/root_app1_id_rsa.pub
-
+  ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa_sync  -q -N ""
+  cp ~/.ssh/id_rsa_sync.pub /share/root_app1_id_rsa_sync.pub
+  chown 600 ~/.ssh/*
 else
   #Execute on app 2,3,4
   #Update authorized_keys 
@@ -245,7 +251,8 @@ else
     mkdir ~/.ssh
     chmod 700 ~/.ssh
   fi
-  cat /mnt/share_app1/root_app1_id_rsa.pub > ~/.ssh/authorized_keys
+  cat /mnt/share_app1/root_app1_id_rsa_sync.pub > ~/.ssh/authorized_keys
+  chmod 600 ~/.ssh/authorized_keys
 fi
 
 
