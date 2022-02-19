@@ -156,13 +156,15 @@ mkdir -p /mnt/share_app3
 mkdir -p /mnt/share_app4
 
 #Create clamav log foler 
-mkdir /share/log/clamav
-chown clamav /share/log/clamav
+mkdir -p /share/log/clamav
 
 exportfs -a
 systemctl enable --now nfs-server
 showmount -e
-
+if [[ "$HOSTNAME" != *"app1"* ]] ; then
+  #Mount sharepoint from app1
+  mount -t nfs 10.10.1.11:/share /mnt/share_app1
+fi
 
 #set services to start automaticly
 echo "Set auto startup of applications"
@@ -241,8 +243,8 @@ if [[ "$HOSTNAME" == *"app1"* ]] ; then
   pip3 install certbot
 
   #Create a root rsa key 
-  ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa_sync  -q -N ""
-  cp ~/.ssh/id_rsa_sync.pub /share/root_app1_id_rsa_sync.pub
+  ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa_rsync  -q -N ""
+  cp ~/.ssh/id_rsa_rsync.pub /share/root_app1_id_rsa_rsync.pub
   chown 600 ~/.ssh/*
 else
   #Execute on app 2,3,4
@@ -251,23 +253,22 @@ else
     mkdir ~/.ssh
     chmod 700 ~/.ssh
   fi
-  cat /mnt/share_app1/root_app1_id_rsa_sync.pub > ~/.ssh/authorized_keys
+  
+
+  cat /mnt/share_app1/root_app1_id_rsa_rsync.pub > ~/.ssh/authorized_keys
   chmod 600 ~/.ssh/authorized_keys
+
+  
 fi
-
-
 
 date
 date >> /tmp/instalation-script.txt
 echo "Instalation script completed " >> /tmp/instalation-script.txt
 
 #test website up
-echo "-----"
-curl -v http://localhost/test.html
 echo -e "\n-----"
-curl -v http://localhost/test.php
-echo 
-echo -e "\n-----"
+echo "curl -v http://localhost/health-check.php"
+echo "\n-----"
 curl -v http://localhost/health-check.php
 
 echo ""

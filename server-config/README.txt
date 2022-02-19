@@ -27,6 +27,7 @@ cd ${HOME}
 ls -l
 sudo ./bin/01.install-server-4app-2db.sh
 
+
 ###########################
 app2, app3, app4
 ###########################

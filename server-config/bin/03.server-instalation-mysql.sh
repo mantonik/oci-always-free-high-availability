@@ -146,6 +146,7 @@ fi
 
 if [ "$HOSTNAME" == *"app4"* ] ; then
   mount -t nfs 10.10.1.14:/share /mnt/share_app4
+  mount -t nfs 10.10.1.12:/share /mnt/share_app2
 fi
 
 

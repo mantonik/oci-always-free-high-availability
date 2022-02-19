@@ -3,6 +3,7 @@
 #
 # 1.0 1/8/2022 Initial version
 # 1.1 add sync permissions, add update root crontab
+# 1.2 - remove mount share mount during rsync of server
 #
 version=1.1
 
@@ -45,7 +46,7 @@ func_required_folders "/var/log/clamav"
 exportfs -a
 
 #restart mount
-/etc/init.d/mount_share.sh
+#/etc/init.d/mount_share.sh
 
 echo "--- Completed ---"
 echo "----------------------"
