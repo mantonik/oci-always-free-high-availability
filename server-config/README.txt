@@ -13,7 +13,7 @@ somethingappX
 ##########
 app1
 ##########
-
+#!/bin/bash
 export REPO=dev-2
 REPODIR=${HOME}/repository/${REPO}
 cd ${HOME}
@@ -31,7 +31,7 @@ sudo ./bin/01.install-server-4app-2db.sh
 ###########################
 app2, app3, app4
 ###########################
-
+#!/bin/bash
 IP_SUBNET=10.10.1
 export REPO=dev-2
 export REPODIR=${HOME}/repository/${REPO}
