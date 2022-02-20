@@ -97,7 +97,6 @@ fi
 echo "Install required packages"
 dnf install -y nginx php php-fpm php-mysqlnd php-json
 dnf install -y sendmail htop tmux mc rsync clamav clamav-update rclone setroubleshoot-server setools-console nfs-utils
-#dnf install -y snapd
 
 #Setup web folder structure
 mkdir -p /data/www/default/htdocs
@@ -208,7 +207,7 @@ if [ "$HOSTNAME" == *"app2"* ] || [ "$HOSTNAME" == *"app4"* ]  ; then
   echo "Install MySQL server "
   /home/opc/bin/03.server-instalation-mysql.sh
 fi
-
+ 
 set +x 
 
 if [[ "$HOSTNAME" == *"app1"* ]] ; then

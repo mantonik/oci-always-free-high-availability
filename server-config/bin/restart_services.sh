@@ -31,7 +31,6 @@ echo "------------------"
 systemctl restart rsyslog
 systemctl restart sendmail
 systemctl restart sshd
-systemctl restart snapd 
 
 echo "Restart nfs mount "
 systemctl enable --now nfs-server
@@ -61,8 +60,6 @@ echo "Start php-fpm"
 systemctl start php-fpm.service
 echo "start nginx"
 systemctl start nginx
-
-
 
 echo "------------------"
 echo "Completed"
