@@ -20,7 +20,7 @@
 #       add rsa key generation, sharing and copy on ap2,3,4 to authrorized keys
 # 2/5/22 udpate mysql instalation script path to full path, set to run at app2 and app4
 # 2/13 - add change permission to root/ id_rsa files 
-#
+# 2/20 - add mysql instalation check 
 #
 ##################
 #Parameters 
