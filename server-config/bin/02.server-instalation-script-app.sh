@@ -202,6 +202,8 @@ echo "Restart services"
 
 set -x
 #Install MySQL on app2 and app4
+echo "-----"
+echo "If this is app2 or app4 install MySQL server"
 if [ "$HOSTNAME" == *"app2"* ] || [ "$HOSTNAME" == *"app4"* ]  ; then
   echo "Install MySQL server "
   /home/opc/bin/03.server-instalation-mysql.sh
@@ -251,18 +253,15 @@ if [[ "$HOSTNAME" == *"app1"* ]] ; then
   cp ~/.ssh/id_rsa_rsync.pub /share/root_app1_id_rsa_rsync.pub
   chown 600 ~/.ssh/*
 else
+  echo "Execute on app2,3,4"
   #Execute on app 2,3,4
   #Update authorized_keys 
   if [ ! -e ~/.ssh ]; then 
     mkdir ~/.ssh
     chmod 700 ~/.ssh
   fi
-  
-
   cat /mnt/share_app1/root_app1_id_rsa_rsync.pub > ~/.ssh/authorized_keys
   chmod 600 ~/.ssh/authorized_keys
-
-  
 fi
 
 date
