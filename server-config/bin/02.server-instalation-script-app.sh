@@ -21,6 +21,7 @@
 # 2/5/22 udpate mysql instalation script path to full path, set to run at app2 and app4
 # 2/13 - add change permission to root/ id_rsa files 
 # 2/20 - add mysql instalation check 
+#       - add else for installing mysql
 #
 ##################
 #Parameters 
@@ -203,9 +204,11 @@ set -x
 #Install MySQL on app2 and app4
 echo "-----"
 echo "If this is app2 or app4 install MySQL server"
-if [ "$HOSTNAME" == *"app2"* ] || [ "$HOSTNAME" == *"app4"* ]  ; then
+if [[ "$HOSTNAME" == *"app2"* ]] || [[ "$HOSTNAME" == *"app4"* ]]  ; then
   echo "Install MySQL server "
   /home/opc/bin/03.server-instalation-mysql.sh
+else  
+  echo "this is not app2 or app4 server"
 fi
  
 set +x 
