@@ -200,10 +200,14 @@ setsebool httpd_use_nfs on
 echo "Restart services"
 /home/opc/bin/restart_services.sh now
 
+set -x
 #Install MySQL on app2 and app4
-if [ "$HOSTNAME" == *"app2"* ] || [ "$HOSTNAME" == *"app4"* ] ; then
+if [ "$HOSTNAME" == *"app2"* ] || [ "$HOSTNAME" == *"app4"* ]  ; then
+  echo "Install MySQL server "
   /home/opc/bin/03.server-instalation-mysql.sh
 fi
+
+set +x 
 
 if [[ "$HOSTNAME" == *"app1"* ]] ; then
   # Install oci tools as root
