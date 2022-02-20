@@ -96,8 +96,7 @@ fi
 
 
 echo "Install required packages"
-dnf install -y nginx php php-fpm php-mysqlnd php-json
-dnf install -y sendmail htop tmux mc rsync clamav clamav-update rclone setroubleshoot-server setools-console nfs-utils
+dnf install -y nginx php php-fpm php-mysqlnd php-json sendmail htop tmux mc rsync clamav clamav-update rclone setroubleshoot-server setools-console nfs-utils
 
 #Setup web folder structure
 mkdir -p /data/www/default/htdocs
