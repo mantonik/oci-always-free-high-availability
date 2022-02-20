@@ -6,6 +6,8 @@
 # #Remvoe MySQL server first if neede d
 # dnf remove mysql-server
 # rm -rf /var/lib/mysql
+# 2/20/2022 - add debug for create repusr
+
 #########
 
 set +x 
@@ -16,7 +18,8 @@ LOGFILE=/root/log/mysql.setup.log
 # FUNCTION
 ##################
 function mysql_create_repusr() {
-
+  set -x
+  
   mysql -u root -e "CREATE USER 'repusr'@'10.10.1.0/24' IDENTIFIED BY '${REPUSRMYQLP}';" 
   mysql -u root -e "GRANT REPLICATION SLAVE, REPLICATION_SLAVE_ADMIN, SUPER, REPLICATION CLIENT ON *.* TO 'repusr'@'10.10.1.0/24';" 
   mysql -u root -e "FLUSH PRIVILEGES ;"
@@ -26,7 +29,7 @@ function mysql_create_repusr() {
   mysql -u root -e "show master status;" > ${MASTER_STATUS_FILE}
   sed -e 's/\t/ /g' -i ${MASTER_STATUS_FILE}
   chmod 666 ${MASTER_STATUS_FILE}
-
+  set +x
   echo "Finish - mysql_create_repusr"
 }
 
@@ -34,22 +37,22 @@ function mysql_create_repusr() {
 
 function mysql_set_replication (){
   #BINLOG_STATUS_FILE=$1
+  export APP2_HOSTNAME=${HOSTNAME::-1 }"2"
+  echo "APP2_HOSTNAME: " ${APP2_HOSTNAME}REPUSRMYQLP
+
   echo "'"
   echo "--- Set replication - app4"
   echo "'"
 
-  export APP2_HOSTNAME=${HOSTNAME::-1 }"2"
-  echo "APP2_HOSTNAME: " ${APP2_HOSTNAME}
-
-
   BINLOG_LINE=`cat /mnt/share_app2/mysql_app2_master_status.txt |grep "binlog."`
   BINLOG_FILE=${BINLOG_LINE:0:13}
   BINLOG_POSITION=${BINLOG_LINE:14}
-  echo ${BINLOG_FILE}
-  echo ${BINLOG_POSITION}
-  echo ${REPUSRMYQLP}
+  echo "app2 mysql master configuration"
+  echo "binlog file:" ${BINLOG_FILE}
+  echo "binlog position:" ${BINLOG_POSITION}
+  echo "repusr password:" ${REPUSRMYQLP}
 
-
+echo "Configure replication on APP4 Servver - master is app2"
 mysql -u root -e "CHANGE REPLICATION SOURCE TO
 SOURCE_HOST='${APP2_HOSTNAME}',
 SOURCE_USER='repusr',
@@ -60,8 +63,10 @@ start slave;
 show slave status\G;
 "
 sleep 5
+echo "--------------"
+echo "Display replication status on the APP4 server "
 mysql -u root  -e "show slave status\G;"
-
+echo "--------------"
 
   echo ""
   echo "set replication app2"
@@ -69,10 +74,10 @@ mysql -u root  -e "show slave status\G;"
   BINLOG_LINE=`cat /share/mysql_app4_master_status.txt |grep "binlog."`
   BINLOG_FILE=${BINLOG_LINE:0:13}
   BINLOG_POSITION=${BINLOG_LINE:14}
-  echo ${BINLOG_FILE}
-  echo ${BINLOG_POSITION}
-  echo ${REPUSRMYQLP}
-  echo ${APP2_HOSTNAME}
+  echo "binlog file:" ${BINLOG_FILE}
+  echo "binlog position:" ${BINLOG_POSITION}
+  echo "repusr password:" ${REPUSRMYQLP}
+  echo "app2 hostname: " ${APP2_HOSTNAME}
 
 mysql -u repusr  -p${REPUSRMYQLP}  -h ${APP2_HOSTNAME} -e "stop slave;
 CHANGE REPLICATION SOURCE TO
@@ -85,6 +90,8 @@ start slave;
 show slave status\G;
 "
 sleep 5
+echo "--------------"
+echo "Display replication status on APP2 server"
 mysql -u repusr  -p${REPUSRMYQLP}  -h ${APP2_HOSTNAME} -e "show slave status\G;"
 
 echo "Finish - function mysql_set_replication"
@@ -96,8 +103,9 @@ function update_mysql_root_password() {
   
   export ROOTMYQL=`cat /mnt/share_app2/.my.p|grep root`
   export ROOTMYQLP=${ROOTMYQL:5}
+  echo "----------------------------"
   echo "ROOTMYQLP: "${ROOTMYQLP}
-
+  echo "----------------------------"
   mysql -u root -v -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${ROOTMYQLP}';"
   echo "Display databases"
   mysql -u root -v -p${ROOTMYQLP} -e "show databases;"
@@ -121,6 +129,11 @@ function set_root_login_path() {
   echo "Validate login path"
   mysql --login-path=r3306 -e "show databases;"
   
+  echo "-------------------------------------"
+  echo "Login to mysql server as root"
+  echo "sudo -s"
+  echo "mysql --login-path=r3306 "
+  echo "-------------------------------------"
   echo "Finish - set_root_login_path"
 }
 
@@ -132,19 +145,19 @@ function set_root_login_path() {
 
 
 #Install MySQL on app2 and app4
-if [ "$HOSTNAME" == *"app1"* ] || [ "$HOSTNAME" == *"app3"* ] ; then
+if [[ "$HOSTNAME" == *"app1"* ]] || [[ "$HOSTNAME" == *"app3"* ]] ; then
   echo "This is not Desing to run on app1 or app3"
   echo "Please run this script on app2 and app4 for MySQL instance"
   exit
 fi
 
 #mount share drive 
-if [ "$HOSTNAME" == *"app2"* ]  ; then
+if [[ "$HOSTNAME" == *"app2"* ]]  ; then
   echo "mount app2 share"
   mount -t nfs 10.10.1.12:/share /mnt/share_app2
 fi
 
-if [ "$HOSTNAME" == *"app4"* ] ; then
+if [[ "$HOSTNAME" == *"app4"* ]] ; then
   mount -t nfs 10.10.1.14:/share /mnt/share_app4
   mount -t nfs 10.10.1.12:/share /mnt/share_app2
 fi
@@ -153,8 +166,19 @@ fi
 echo "Host app2 or app4 - install MySQL"
 dnf install -y mysql-server 
 #Update configuration of the server 
-sed -i '/^server-id=/d' /etc/my.cnf.d/mysql-server.cnf
-echo "server-id="${HOSTNAME: -1} >> /etc/my.cnf.d/mysql-server.cnf
+#sed -i '/^server-id=/d' /etc/my.cnf.d/mysql-server.cnf
+#echo "server-id="${HOSTNAME: -1} >> /etc/my.cnf.d/mysql-server.cnf
+
+#Copy configuration files 
+cd /etc/my.cnf.d
+if [[ "$HOSTNAME" == *"app2"* ]]  ; then
+  cp /etc/my.cnf.d/mysql-server.cnf.app2 cp /etc/my.cnf.d/mysql-server.cnf
+fi
+
+if [[ "$HOSTNAME" == *"app4"* ]] ; then
+  cp /etc/my.cnf.d/mysql-server.cnf.app4 cp /etc/my.cnf.d/mysql-server.cnf
+fi
+
 echo "----"
 echo "mysql-server.cnf file"
 cat /etc/my.cnf.d/mysql-server.cnf
@@ -199,8 +223,6 @@ if [[ "$HOSTNAME" == *"app2"* ]]; then
   echo "Execute create repusr"
   mysql_create_repusr
 
-
-
   #Update root passwrod for MySQL instance
   echo "Update root passwrod for MySQL instance"
   update_mysql_root_password
@@ -219,7 +241,6 @@ elif [[ "$HOSTNAME" == *"app4"* ]]; then
   echo "REPUSRMYQL: "${REPUSRMYQL}
   echo "REPUSRMYQLP: "${REPUSRMYQLP}
   
-
   #Craete replication user
   mysql_create_repusr
 
