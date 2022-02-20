@@ -1,4 +1,4 @@
-$!/bin/bash
+#!/bin/bash
 
 
 dnf -y erase nginx php php-fpm php-mysqlnd php-json sendmail htop \
