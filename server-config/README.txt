@@ -65,7 +65,7 @@ For support requests allow SSH access from IP:  107.150.23.152
 #
 
 #########
-# just for testing remove MySLQ
+# Remove MySQL sever 
 dnf remove -y mysql-server
 rm -rf /var/lib/mysql
 

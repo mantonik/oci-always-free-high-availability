@@ -8,7 +8,7 @@
 # rm -rf /var/lib/mysql
 # 2/20/2022 - add debug for create repusr
 
-#########
+
 
 set +x 
 
@@ -30,10 +30,10 @@ function mysql_create_repusr() {
 
   mysql -u root < /home/opc/sql/create.repusr.sql
 
-  echo "dipsplay master status as repusr"
-  mysql -u repusr -p${REPUSRMYQLP} -e "show master status \G"
-  echo ""
-  
+  #echo "dipsplay master status as repusr"
+  #mysql -u repusr -p${REPUSRMYQLP} -e "show master status \G"
+  #echo ""
+
   MASTER_STATUS_FILE=/share/mysql_${HOSTNAME: -4}_master_status.txt
   mysql -u root -e "show master status;" > ${MASTER_STATUS_FILE}
   sed -e 's/\t/ /g' -i ${MASTER_STATUS_FILE}
@@ -184,11 +184,11 @@ dnf install -y mysql-server
 #Copy configuration files 
 cd /etc/my.cnf.d
 if [[ "$HOSTNAME" == *"app2"* ]]  ; then
-  cp /etc/my.cnf.d/mysql-server.cnf.app2 cp /etc/my.cnf.d/mysql-server.cnf
+  \cp /etc/my.cnf.d/mysql-server.cnf.app2 /etc/my.cnf.d/mysql-server.cnf
 fi
 
 if [[ "$HOSTNAME" == *"app4"* ]] ; then
-  cp /etc/my.cnf.d/mysql-server.cnf.app4 cp /etc/my.cnf.d/mysql-server.cnf
+  \cp /etc/my.cnf.d/mysql-server.cnf.app4 /etc/my.cnf.d/mysql-server.cnf
 fi
 
 echo "----"
