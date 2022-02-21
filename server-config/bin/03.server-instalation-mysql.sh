@@ -30,6 +30,10 @@ function mysql_create_repusr() {
 
   mysql -u root < /home/opc/sql/create.repusr.sql
 
+  echo "dipsplay master status as repusr"
+  mysql -u repusr -p${REPUSRMYQLP} -e "show master status \G"
+  echo ""
+  
   MASTER_STATUS_FILE=/share/mysql_${HOSTNAME: -4}_master_status.txt
   mysql -u root -e "show master status;" > ${MASTER_STATUS_FILE}
   sed -e 's/\t/ /g' -i ${MASTER_STATUS_FILE}
