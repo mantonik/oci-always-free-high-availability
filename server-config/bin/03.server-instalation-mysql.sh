@@ -18,28 +18,23 @@ LOGFILE=/root/log/mysql.setup.log
 # FUNCTION
 ##################
 function mysql_create_repusr() {
-  set -x
+  #set -x
   #mysql --login-path=r3306 -e "GRANT REPLICATION SLAVE, REPLICATION_SLAVE_ADMIN, SUPER, REPLICATION CLIENT ON *.* TO 'repusr'@'10.10.1.0/24' IDENTIFIED BY '${REPUSRMYQLP}';" 
   
-  #mysql --login-path=r3306 -e "CREATE USER 'repusr'@'10.10.1.0/24' IDENTIFIED BY '${REPUSRMYQLP}';
-  #GRANT REPLICATION SLAVE, REPLICATION_SLAVE_ADMIN, SUPER, REPLICATION CLIENT ON *.* TO 'repusr'@'10.10.1.0/24'; 
-  #FLUSH PRIVILEGES ;"
-  #mysql -u root -e "CREATE USER \'repusr\'@\'10.10.1.0/24\' IDENTIFIED BY \'${REPUSRMYQLP}\';\
-  #GRANT REPLICATION SLAVE, REPLICATION_SLAVE_ADMIN, SUPER, REPLICATION CLIENT ON *.* TO 'repusr'@'10.10.1.0/24'; \
-  #FLUSH PRIVILEGES ;"
-  sed -e 's/REPUSRMYQLP/${REPUSRMYQLP}/g' $HOME/sql/create.repusr.template.sql > $HOME/sql/create.repusr.sql
-  
-  mysql --login-path=r3306 < /home/opc/sql/create.repusr.sql
+  sed -e "s/REPUSRMYQLP/${REPUSRMYQLP}/g" /home/opc/sql/create.repusr.template.sql > /home/opc/sql/create.repusr.sql
+  chown opc /home/opc/sql/create.repusr.sql
+  ehco "----"
+  cat  /home/opc/sql/create.repusr.sql
+  echo ""
+  #mysql --login-path=r3306 < /home/opc/sql/create.repusr.sql
 
   mysql -u root < /home/opc/sql/create.repusr.sql
-
-  #mysql -u root -e "flush logs;"
 
   MASTER_STATUS_FILE=/share/mysql_${HOSTNAME: -4}_master_status.txt
   mysql -u root -e "show master status;" > ${MASTER_STATUS_FILE}
   sed -e 's/\t/ /g' -i ${MASTER_STATUS_FILE}
   chmod 666 ${MASTER_STATUS_FILE}
-  set +x
+  #set +x
   echo "Finish - mysql_create_repusr"
 }
 
