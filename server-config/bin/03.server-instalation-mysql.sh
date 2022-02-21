@@ -19,11 +19,21 @@ LOGFILE=/root/log/mysql.setup.log
 ##################
 function mysql_create_repusr() {
   set -x
+  #mysql --login-path=r3306 -e "GRANT REPLICATION SLAVE, REPLICATION_SLAVE_ADMIN, SUPER, REPLICATION CLIENT ON *.* TO 'repusr'@'10.10.1.0/24' IDENTIFIED BY '${REPUSRMYQLP}';" 
   
-  mysql -u root -e "CREATE USER 'repusr'@'10.10.1.0/24' IDENTIFIED BY '${REPUSRMYQLP}';" 
-  mysql -u root -e "GRANT REPLICATION SLAVE, REPLICATION_SLAVE_ADMIN, SUPER, REPLICATION CLIENT ON *.* TO 'repusr'@'10.10.1.0/24';" 
-  mysql -u root -e "FLUSH PRIVILEGES ;"
-  mysql -u root -e "flush logs;"
+  #mysql --login-path=r3306 -e "CREATE USER 'repusr'@'10.10.1.0/24' IDENTIFIED BY '${REPUSRMYQLP}';
+  #GRANT REPLICATION SLAVE, REPLICATION_SLAVE_ADMIN, SUPER, REPLICATION CLIENT ON *.* TO 'repusr'@'10.10.1.0/24'; 
+  #FLUSH PRIVILEGES ;"
+  #mysql -u root -e "CREATE USER \'repusr\'@\'10.10.1.0/24\' IDENTIFIED BY \'${REPUSRMYQLP}\';\
+  #GRANT REPLICATION SLAVE, REPLICATION_SLAVE_ADMIN, SUPER, REPLICATION CLIENT ON *.* TO 'repusr'@'10.10.1.0/24'; \
+  #FLUSH PRIVILEGES ;"
+  sed -e 's/REPUSRMYQLP/${REPUSRMYQLP}/g' $HOME/sql/create.repusr.template.sql > $HOME/sql/create.repusr.sql
+  
+  mysql --login-path=r3306 < /home/opc/sql/create.repusr.sql
+
+  mysql -u root < /home/opc/sql/create.repusr.sql
+
+  #mysql -u root -e "flush logs;"
 
   MASTER_STATUS_FILE=/share/mysql_${HOSTNAME: -4}_master_status.txt
   mysql -u root -e "show master status;" > ${MASTER_STATUS_FILE}
@@ -133,6 +143,9 @@ function set_root_login_path() {
   echo "Login to mysql server as root"
   echo "sudo -s"
   echo "mysql --login-path=r3306 "
+  echo ""
+  echo "Set login path if you change passwrod as to local server"
+  echo "mysql_config_editor set --login-path=r3306 -u root -p --socket=/var/lib/mysql/mysql.sock"
   echo "-------------------------------------"
   echo "Finish - set_root_login_path"
 }
