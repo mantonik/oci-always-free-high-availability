@@ -66,6 +66,7 @@ For support requests allow SSH access from IP:  107.150.23.152
 
 #########
 # Remove MySQL sever 
+service mysqld stop 
 dnf remove -y mysql-server
 rm -rf /var/lib/mysql
 
